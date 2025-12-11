@@ -60,16 +60,18 @@ export function Contact() {
   const leftX = useTransform(scrollYProgress, [0, 0.5], [-80, 0]);
   const rightX = useTransform(scrollYProgress, [0, 0.5], [80, 0]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+  const subject = `Message de ${formData.name}`;
+  const body = `Nom complet : ${formData.name}%0D%0AEmail : ${formData.email}%0D%0A%0D%0AMessage :%0D%0A${formData.message}`;
 
-    toast({
-      title: "Message envoyé !",
-      description: "Je vous répondrai dans les plus brefs délais.",
+  // Ouvre le client mail avec les infos déjà remplies
+  window.location.href = `mailto:evansabah2006@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+  toast({
+    title: "Ouverture du client mail",
+    description: "Votre client mail par défaut va s'ouvrir pour envoyer le message.",
+    duration: 5000,
     });
 
     setFormData({ name: "", email: "", message: "" });
@@ -358,7 +360,7 @@ export function Contact() {
                     size="lg"
                     className="w-full group"
                     disabled={isSubmitting}
-                  >
+                    >
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />
