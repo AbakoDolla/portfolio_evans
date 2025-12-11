@@ -223,7 +223,7 @@ export function Hero() {
             >
               {[
                 { icon: Github, href: "https://https://github.com/AbakoDolla.com" },
-                { icon: Linkedin, href: "https://www.linkedin.com/in/prince-evans-abah-0000b935a" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/prince-evans-abah-0000b935a", label: "LinkedIn" },
                 { icon: Mail, href: "mailto:evansabah2006@gmail.com" },
               ].map((social, i) => (
                 <motion.a
