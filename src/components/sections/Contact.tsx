@@ -33,7 +33,7 @@ const contactInfo = [
 
 const socialLinks = [
   { icon: Github, href: "https://github.https://github.com/AbakoDolla", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/prince-evans-abah-0000b935a", label: "LinkedIn" },
   { icon: Facebook, href: "https://web.facebook.com/profile.php?id=100092248629611", label: "Facebook" },
   { icon: PhoneIcon, href: "https://wa.me/+237691439534?text=Salut%20Evans! j'ai%20%20besoin%20de%20tes%20services", label: "WhatsApp" },
 
