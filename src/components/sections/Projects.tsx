@@ -85,7 +85,7 @@ const projects: Project[] = [
     description: "Site vitrine et intranet pour une société d'exploitation minière",
     longDescription:
       "Développement d'un site corporate présentant les activités d'exploitation des ressources minières, la conformité environnementale, et un intranet sécurisé pour la gestion des opérateurs et des rapports d'activité.",
-    techStack: ["Next.js", "React", "Node.js", "PostgreSQL", "Auth0"],
+    techStack: ["React", "PostgreSQL", "Auth0"],
     icon: Server,
     color: "primary",
     status: "in-progress",
@@ -389,7 +389,7 @@ export function Projects() {
                 Projets à venir
               </motion.p>
               <p className="text-xs text-muted-foreground">
-                Plateforme de sondage, Marketplace e-commerce
+                Plateforme de sondage, Marketplace e-commerce, plateforme de livraison de colis local(ColisGo)...
               </p>
             </div>
           </motion.div>

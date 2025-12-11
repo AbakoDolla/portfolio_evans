@@ -222,7 +222,7 @@ export function Hero() {
               className="flex items-center justify-center lg:justify-start gap-4"
             >
               {[
-                { icon: Github, href: "https://github.com" },
+                { icon: Github, href: "https://https://github.com/AbakoDolla.com" },
                 { icon: Linkedin, href: "https://linkedin.com" },
                 { icon: Mail, href: "mailto:evansabah2006@gmail.com" },
               ].map((social, i) => (

@@ -28,10 +28,10 @@ const highlights = [
 
 const timeline = [
   { year: "2023", event: "Début de l'apprentissage en cybersécurité" },
-  { year: "2024", event: "Premier pentest sur Metasploitable2" },
-  { year: "2024", event: "Création du VPN personnel avec WireGuard" },
-  { year: "2024", event: "Développement d'outils OSINT en Python" },
-  { year: "2025", event: "Projet LYNX - Assistant IA Cybersécurité" },
+  { year: "2024", event: "Premier pentest sur Metasploitable2,hackthebox,tryhackme" },
+  { year: "2024", event: "Création du VPN personnel avec WireGuard et openvpn" },
+  { year: "2024", event: "Développement d'outils OSINT en Python et bien d'autres" },
+  { year: "2025", event: "Projet LYNX - Assistant IA Cybersécurité et toujours en cours..." },
 ];
 
 export function About() {
@@ -115,7 +115,10 @@ export function About() {
                 transition={{ delay: 0.4 }}
                 className="text-lg text-muted-foreground leading-relaxed mb-6"
               >
-                Étudiant passionné en <motion.span
+                Étudiant à <motion.span
+                  whileHover={{ scale: 1.1 }}
+                  className="text-primary font-medium inline-block"
+                >ICT UNIVERSITY</motion.span>passionné en <motion.span
                   whileHover={{ scale: 1.1 }}
                   className="text-primary font-medium inline-block"
                 >cybersécurité</motion.span> à Yaoundé, Cameroun.
