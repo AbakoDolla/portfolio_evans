@@ -20,14 +20,33 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
   const [error, setError] = useState('');
   const [biometricStep, setBiometricStep] = useState<'check' | 'register' | 'authenticate'>('check');
   const [isRegistered, setIsRegistered] = useState(false);
+  const [isBiometricSupported, setIsBiometricSupported] = useState(false);
 
   const CORRECT_CODE = 'Ab@h2006';
+
+  // Vérifier la compatibilité biométrique au chargement
+  useEffect(() => {
+    const checkBiometricSupport = async () => {
+      const supported = authUtils.isWebAuthnSupported();
+      setIsBiometricSupported(supported);
+      
+      if (supported) {
+        const available = await authUtils.isBiometricAvailable();
+        if (!available) {
+          setIsBiometricSupported(false);
+        }
+      }
+    };
+
+    checkBiometricSupport();
+  }, []);
 
   // Vérifier si une empreinte est déjà enregistrée
   useEffect(() => {
     const registered = authUtils.isBiometricRegistered();
-    setIsRegistered(registered);
-    if (registered) {
+    const hasCredentialId = localStorage.getItem('biometric_credential_id');
+    setIsRegistered(registered && !!hasCredentialId);
+    if (registered && hasCredentialId) {
       setBiometricStep('authenticate');
     }
   }, []);
@@ -43,17 +62,64 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
         return;
       }
 
-      // Simuler l'enregistrement de l'empreinte digitale
-      // En production, vous utiliseriez: navigator.credentials.create()
-      setTimeout(() => {
+      // Créer les identifiants pour l'enregistrement
+      const userId = new TextEncoder().encode('portfolio-user-' + Date.now());
+      const challenge = new Uint8Array(32);
+      crypto.getRandomValues(challenge);
+
+      const publicKeyCredentialCreationOptions: CredentialCreationOptions = {
+        publicKey: {
+          challenge: challenge,
+          rp: {
+            name: "Portfolio Prince Evans",
+            id: window.location.hostname,
+          },
+          user: {
+            id: userId,
+            name: "portfolio-user",
+            displayName: "Portfolio User",
+          },
+          pubKeyCredParams: [
+            { alg: -7, type: "public-key" }, // ES256
+            { alg: -257, type: "public-key" }, // RS256
+          ],
+          authenticatorSelection: {
+            authenticatorAttachment: "platform", // Utiliser le lecteur de l'appareil
+            userVerification: "required", // Exiger la vérification biométrique
+            residentKey: "preferred", // Stocker sur l'appareil
+          },
+          timeout: 60000,
+          attestation: "direct",
+        },
+      };
+
+      // Demander l'enregistrement biométrique
+      const credential = await navigator.credentials.create(publicKeyCredentialCreationOptions) as PublicKeyCredential;
+      
+      if (credential) {
+        // Stocker l'ID de l'identifiant pour l'authentification future
+        const credentialId = Array.from(new Uint8Array(credential.rawId));
+        localStorage.setItem('biometric_credential_id', JSON.stringify(credentialId));
         authUtils.registerBiometric();
         setIsRegistered(true);
         setBiometricStep('authenticate');
-        setIsLoading(false);
-      }, 2000);
+      }
 
-    } catch (err) {
-      setError('Échec de l\'enregistrement biométrique');
+      setIsLoading(false);
+
+    } catch (err: any) {
+      console.error('Erreur d\'enregistrement biométrique:', err);
+      
+      // Messages d'erreur spécifiques
+      if (err.name === 'NotAllowedError') {
+        setError('L\'utilisateur a annulé l\'opération ou l\'empreinte n\'est pas disponible');
+      } else if (err.name === 'SecurityError') {
+        setError('Erreur de sécurité. Vérifiez que le site est en HTTPS');
+      } else if (err.name === 'NotSupportedError') {
+        setError('Votre appareil ne supporte pas l\'authentification biométrique');
+      } else {
+        setError('Échec de l\'enregistrement biométrique: ' + err.message);
+      }
       setIsLoading(false);
     }
   };
@@ -69,22 +135,63 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
         return;
       }
 
-      // Simuler l'authentification biométrique
-      // En production, vous utiliseriez: navigator.credentials.get()
-      setTimeout(() => {
+      // Récupérer l'ID de l'identifiant stocké
+      const storedCredentialId = localStorage.getItem('biometric_credential_id');
+      if (!storedCredentialId) {
+        setError('Aucune empreinte enregistrée. Veuillez d\'abord enregistrer votre empreinte.');
+        setIsLoading(false);
+        return;
+      }
+
+      const credentialId = new Uint8Array(JSON.parse(storedCredentialId));
+      const challenge = new Uint8Array(32);
+      crypto.getRandomValues(challenge);
+
+      const publicKeyCredentialRequestOptions: CredentialRequestOptions = {
+        publicKey: {
+          challenge: challenge,
+          allowCredentials: [{
+            id: credentialId,
+            type: 'public-key',
+            transports: ['internal', 'ble', 'nfc', 'usb'],
+          }],
+          userVerification: "required", // Exiger la vérification biométrique
+          timeout: 60000,
+        },
+      };
+
+      // Demander l'authentification biométrique
+      const assertion = await navigator.credentials.get(publicKeyCredentialRequestOptions) as PublicKeyCredential;
+      
+      if (assertion) {
+        // Authentification réussie
         setIsLoading(false);
         onSuccess();
         onClose();
-      }, 2000);
+      }
 
-    } catch (err) {
-      setError('Échec de l\'authentification biométrique');
+    } catch (err: any) {
+      console.error('Erreur d\'authentification biométrique:', err);
+      
+      // Messages d'erreur spécifiques
+      if (err.name === 'NotAllowedError') {
+        setError('L\'utilisateur a annulé l\'opération ou l\'empreinte n\'est pas disponible');
+      } else if (err.name === 'SecurityError') {
+        setError('Erreur de sécurité. Vérifiez que le site est en HTTPS');
+      } else if (err.name === 'NotSupportedError') {
+        setError('Votre appareil ne supporte pas l\'authentification biométrique');
+      } else if (err.name === 'InvalidStateError') {
+        setError('L\'empreinte n\'est pas valide. Veuillez la réenregistrer.');
+      } else {
+        setError('Échec de l\'authentification biométrique: ' + err.message);
+      }
       setIsLoading(false);
     }
   };
 
   const resetBiometric = () => {
     authUtils.resetBiometric();
+    localStorage.removeItem('biometric_credential_id');
     setIsRegistered(false);
     setBiometricStep('register');
     setError('');
@@ -129,9 +236,15 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
               variant={authMethod === 'biometric' ? 'default' : 'outline'}
               onClick={() => setAuthMethod('biometric')}
               className="flex-1"
+              disabled={!isBiometricSupported}
             >
               <Fingerprint className="h-4 w-4 mr-2" />
               Empreinte
+              {!isBiometricSupported && (
+                <Badge variant="destructive" className="ml-2 text-xs">
+                  Non supporté
+                </Badge>
+              )}
             </Button>
             <Button
               variant={authMethod === 'code' ? 'default' : 'outline'}
@@ -143,8 +256,18 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
             </Button>
           </div>
 
+          {/* Message d'avertissement si non supporté */}
+          {authMethod === 'biometric' && !isBiometricSupported && (
+            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+              <p className="text-sm text-yellow-800">
+                ⚠️ L'authentification biométrique n'est pas supportée sur cet appareil ou ce navigateur. 
+                Utilisez un navigateur moderne comme Chrome sur un appareil avec capteur biométrique.
+              </p>
+            </div>
+          )}
+
           {/* Contenu d'authentification */}
-          {authMethod === 'biometric' ? (
+          {authMethod === 'biometric' && isBiometricSupported ? (
             <div className="space-y-4">
               {!isRegistered ? (
                 // Interface d'enregistrement
@@ -158,6 +281,9 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                     </p>
                     <p className="text-xs text-muted-foreground">
                       Enregistrez votre empreinte pour un accès rapide et sécurisé
+                    </p>
+                    <p className="text-xs text-primary mt-2">
+                      📱 Utilisez votre téléphone Android avec le lecteur d'empreinte
                     </p>
                   </div>
                   <Badge variant="secondary" className="text-xs">
@@ -217,6 +343,20 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
                   Réinitialiser l'empreinte
                 </Button>
               )}
+            </div>
+          ) : authMethod === 'biometric' ? (
+            <div className="text-center space-y-4">
+              <div className="mx-auto w-24 h-24 bg-red-500/10 rounded-full flex items-center justify-center">
+                <Shield className="h-12 w-12 text-red-500" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Authentification biométrique non disponible
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Veuillez utiliser la méthode par code ou un appareil compatible
+                </p>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">

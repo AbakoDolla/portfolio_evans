@@ -3,7 +3,8 @@
 export const authUtils = {
   // Vérifier si l'empreinte est enregistrée
   isBiometricRegistered(): boolean {
-    return localStorage.getItem('biometric_registered') === 'true';
+    return localStorage.getItem('biometric_registered') === 'true' && 
+           !!localStorage.getItem('biometric_credential_id');
   },
 
   // Enregistrer l'empreinte
@@ -14,13 +15,35 @@ export const authUtils = {
   // Réinitialiser l'empreinte
   resetBiometric(): void {
     localStorage.removeItem('biometric_registered');
+    localStorage.removeItem('biometric_credential_id');
   },
 
   // Effacer toutes les données d'authentification
   clearAllAuthData(): void {
     localStorage.removeItem('biometric_registered');
+    localStorage.removeItem('biometric_credential_id');
     localStorage.removeItem('portfolio_visits');
     localStorage.removeItem('current_session');
+  },
+
+  // Vérifier si le navigateur supporte WebAuthn
+  isWebAuthnSupported(): boolean {
+    return !!(window.navigator && window.navigator.credentials && 
+             window.PublicKeyCredential);
+  },
+
+  // Vérifier si l'appareil supporte l'authentification biométrique
+  async isBiometricAvailable(): Promise<boolean> {
+    if (!this.isWebAuthnSupported()) return false;
+    
+    try {
+      // Vérifier la disponibilité de l'authentification biométrique
+      const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      return available;
+    } catch (error) {
+      console.error('Erreur lors de la vérification biométrique:', error);
+      return false;
+    }
   },
 
   // Obtenir les statistiques de visites
