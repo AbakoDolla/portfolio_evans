@@ -2,7 +2,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import profileImage from "@/assets/profile.jpg";
-import { useRef } from "react";
+import { useRef, useState, useCallback } from "react";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { Dashboard } from "@/components/dashboard/Dashboard";
 
 export function Hero() {
   const containerRef = useRef(null);
@@ -11,12 +13,39 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
+  const [clickCount, setClickCount] = useState(0);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
+
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const imageY = useTransform(scrollYProgress, [0, 1], [0, -50]);
   const bgY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+
+  const handleImageClick = useCallback(() => {
+    const newCount = clickCount + 1;
+    setClickCount(newCount);
+
+    if (newCount === 5) {
+      setShowAuthModal(true);
+      setClickCount(0);
+    }
+
+    // Réinitialiser le compteur après 2 secondes d'inactivité
+    setTimeout(() => {
+      setClickCount(0);
+    }, 2000);
+  }, [clickCount]);
+
+  const handleAuthSuccess = () => {
+    setShowDashboard(true);
+  };
+
+  const handleDashboardClose = () => {
+    setShowDashboard(false);
+  };
 
   const floatingAnimation = {
     y: [-20, 20, -20],
@@ -290,13 +319,27 @@ export function Hero() {
               {/* Image Container */}
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="absolute inset-6 rounded-full overflow-hidden neon-border"
+                whileTap={{ scale: 0.95 }}
+                className="absolute inset-6 rounded-full overflow-hidden neon-border cursor-pointer"
+                onClick={handleImageClick}
               >
                 <img
                   src={profileImage}
                   alt="Abah Prince Evans"
                   className="w-full h-full object-cover object-top"
                 />
+                {/* Indicateur de clic secret */}
+                {clickCount > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full"
+                  >
+                    <span className="text-white font-bold text-2xl">
+                      {5 - clickCount}
+                    </span>
+                  </motion.div>
+                )}
               </motion.div>
 
               {/* Floating Elements */}
@@ -366,6 +409,19 @@ export function Hero() {
           </motion.a>
         </motion.div>
       </motion.div>
+
+      {/* Modaux */}
+      {showAuthModal && (
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
+        />
+      )}
+      
+      {showDashboard && (
+        <Dashboard onClose={handleDashboardClose} />
+      )}
     </section>
   );
 }
