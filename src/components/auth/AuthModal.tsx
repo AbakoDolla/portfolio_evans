@@ -190,11 +190,19 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
   };
 
   const resetBiometric = () => {
-    authUtils.resetBiometric();
-    localStorage.removeItem('biometric_credential_id');
-    setIsRegistered(false);
-    setBiometricStep('register');
-    setError('');
+    // Demander le mot de passe du propriétaire pour la réinitialisation
+    const ownerPassword = prompt('Veuillez entrer le mot de passe du propriétaire pour réinitialiser l\'empreinte:');
+    
+    if (ownerPassword === CORRECT_CODE) {
+      authUtils.resetBiometric();
+      localStorage.removeItem('biometric_credential_id');
+      setIsRegistered(false);
+      setBiometricStep('register');
+      setError('');
+      alert('Empreinte digitale réinitialisée avec succès.');
+    } else if (ownerPassword !== null) {
+      setError('Mot de passe incorrect. Réinitialisation annulée.');
+    }
   };
 
   const handleCodeAuth = () => {
