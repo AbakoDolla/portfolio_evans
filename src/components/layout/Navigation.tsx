@@ -9,6 +9,7 @@ const navLinks = [
   { href: "#skills", label: "Compétences" },
   { href: "#projects", label: "Projets" },
   { href: "#contact", label: "Contact" },
+  { href: "#certifications", label: "Certifications" },
 ];
 
 export function Navigation() {

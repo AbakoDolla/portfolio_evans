@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import profileImage from "@/assets/profile.jpg";
 import { useRef, useState, useCallback } from "react";
 import { AuthModal } from "@/components/auth/AuthModal";
-import { Dashboard } from "@/components/dashboard/Dashboard";
 
 export function Hero() {
   const containerRef = useRef(null);
@@ -13,9 +12,7 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const [clickCount, setClickCount] = useState(0);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showDashboard, setShowDashboard] = useState(false);
+  // ...existing code...
 
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -24,27 +21,14 @@ export function Hero() {
   const imageY = useTransform(scrollYProgress, [0, 1], [0, -50]);
   const bgY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
-  const handleImageClick = useCallback(() => {
-    const newCount = clickCount + 1;
-    setClickCount(newCount);
-
-    if (newCount === 5) {
-      setShowAuthModal(true);
-      setClickCount(0);
-    }
-
-    // Réinitialiser le compteur après 2 secondes d'inactivité
-    setTimeout(() => {
-      setClickCount(0);
-    }, 2000);
-  }, [clickCount]);
+  // handleImageClick removed
 
   const handleAuthSuccess = () => {
-    setShowDashboard(true);
+    // ...existing code...
   };
 
   const handleDashboardClose = () => {
-    setShowDashboard(false);
+    // ...existing code...
   };
 
   const floatingAnimation = {
@@ -321,7 +305,7 @@ export function Hero() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="absolute inset-6 rounded-full overflow-hidden neon-border cursor-pointer"
-                onClick={handleImageClick}
+                // ...existing code...
               >
                 <img
                   src={profileImage}
@@ -329,17 +313,7 @@ export function Hero() {
                   className="w-full h-full object-cover object-top"
                 />
                 {/* Indicateur de clic secret */}
-                {clickCount > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full"
-                  >
-                    <span className="text-white font-bold text-2xl">
-                      {5 - clickCount}
-                    </span>
-                  </motion.div>
-                )}
+                {/* Secret click indicator removed */}
               </motion.div>
 
               {/* Floating Elements */}
@@ -411,17 +385,10 @@ export function Hero() {
       </motion.div>
 
       {/* Modaux */}
-      {showAuthModal && (
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-          onSuccess={handleAuthSuccess}
-        />
-      )}
+      {/* AuthModal removed */}
       
-      {showDashboard && (
-        <Dashboard onClose={handleDashboardClose} />
-      )}
+      {/* Dashboard removed */}
     </section>
   );
 }
+

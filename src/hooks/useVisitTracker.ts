@@ -49,12 +49,28 @@ export const useVisitTracker = () => {
 
   const getClientIP = async (): Promise<string> => {
     try {
-      // Essayer d'obtenir l'IP via une API publique (fallback si l'API n'est pas disponible)
-      const response = await fetch('https://api.ipify.org?format=json');
-      const data = await response.json();
-      return data.ip || 'unknown';
+      // Utiliser plusieurs APIs en fallback pour éviter les erreurs DNS
+      const apis = [
+        'https://api.ipify.org?format=json',
+        'https://ipapi.co/json/',
+        'https://ip.sb/api/ip'
+      ];
+      
+      for (const api of apis) {
+        try {
+          const response = await fetch(api);
+          if (response.ok) {
+            const data = await response.json();
+            return data.ip || data.ip_address || `local_${Math.random().toString(36).substr(2, 9)}`;
+          }
+        } catch {
+          continue; // Essayer l'API suivante
+        }
+      }
+      
+      // Fallback si aucune API ne fonctionne
+      return `local_${Math.random().toString(36).substr(2, 9)}`;
     } catch (error) {
-      // En cas d'erreur, utiliser une IP locale ou un identifiant unique
       return `local_${Math.random().toString(36).substr(2, 9)}`;
     }
   };
