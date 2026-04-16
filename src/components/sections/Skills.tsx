@@ -31,6 +31,8 @@ import {
   SiOpenai,
   SiCyberdefenders,
   SiCisco,
+  SiWordpress,
+  SiElementor,
 } from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
 import { FaTools } from "react-icons/fa";
@@ -97,6 +99,17 @@ const skillCategories: SkillCategory[] = [
       { name: "IA/ML Vision", level: 60, icon: SiOpenai },
     ],
   },
+  {
+    title: "WordPress & CMS",
+    icon: SiWordpress,
+    color: "primary",
+    skills: [
+      { name: "WordPress Core", level: 85, icon: SiWordpress },
+      { name: "Elementor Pro", level: 80, icon: SiElementor },
+      { name: "Theme Development", level: 75, icon: SiWordpress },
+      { name: "Plugin Customization", level: 70, icon: SiWordpress },
+    ],
+  },
 ];
 
 const tools = [
@@ -108,6 +121,8 @@ const tools = [
   { name: "OSINT Tools", icon: Search },
   { name: "Android Dev", icon: SiAndroid },
   { name: "WireGuard", icon: SiWireguard },
+  { name: "WordPress", icon: SiWordpress },
+  { name: "Elementor", icon: SiElementor },
 ];
 
 export function Skills() {

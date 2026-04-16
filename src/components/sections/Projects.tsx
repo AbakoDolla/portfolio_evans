@@ -71,6 +71,10 @@ interface GitHubRepo {
   fork: boolean;
 }
 
+// Helper function to truncate text
+const truncateText = (text: string, limit = 110): string =>
+  text && text.length > limit ? `${text.slice(0, limit)}...` : text;
+
 // Fonction pour récupérer les repositories GitHub
 const fetchGitHubRepos = async (username: string): Promise<GitHubRepo[]> => {
   try {
@@ -159,6 +163,8 @@ const mapGitHubRepoToProject = (repo: GitHubRepo): Project => {
     if (lowerName.includes('studio') || lowerName.includes('live')) return '/images/starlive-logo.png';
     return undefined;
   };
+
+  const truncateText = (text: string, limit = 110) => text && text.length > limit ? `${text.slice(0, limit)}...` : text;
 
   const projectType = getProjectType(repo.name);
 
@@ -389,7 +395,7 @@ export function Projects() {
             </p>
           </motion.div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
             <motion.div
               key={project.title}
@@ -411,8 +417,8 @@ export function Projects() {
                   transition: { duration: 0.3 },
                 }}
                 whileTap={{ scale: 0.98 }}
-                className={`glass-strong rounded-2xl p-6 h-full transition-all duration-300 cursor-pointer ${
-                  activeProject === index ? "border-primary/50 shadow-lg shadow-primary/10" : ""
+                className={`glass-strong rounded-3xl border border-border/40 bg-background/80 p-6 h-full transition-all duration-300 shadow-xl shadow-primary/5 hover:-translate-y-1 cursor-pointer ${
+                  activeProject === index ? "border-primary/50 shadow-primary/20" : ""
                 }`}
                 onClick={() => setActiveProject(activeProject === index ? null : index)}
               >
@@ -482,85 +488,96 @@ export function Projects() {
                   </motion.div>
                 </div>
 
-                {/* Description */}
-                <motion.p
-                  layout
-                  className="text-muted-foreground mb-4"
-                >
-                  {activeProject === index ? project.longDescription : project.description}
-                </motion.p>
-
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.techStack.map((tech, techIndex) => (
-                    <motion.span
-                      key={tech}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                      transition={{ delay: 0.6 + index * 0.1 + techIndex * 0.05 }}
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      className="px-2 py-1 text-xs rounded-md bg-muted text-muted-foreground font-mono"
-                    >
-                      {tech}
-                    </motion.span>
-                  ))}
-                </div>
-
-                {/* Links Section - Amélioré */}
-                {project.links && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ delay: 0.8 + index * 0.1 }}
-                    className="flex flex-col gap-3 pt-4 border-t border-border/50"
+                {/* Description with compact view + expand button */}
+                <motion.div layout className="mb-4">
+                  <motion.p className="text-muted-foreground mb-3 leading-relaxed">
+                    {activeProject === index
+                      ? project.longDescription
+                      : truncateText(project.description || project.longDescription || 'Aucun détail')}
+                  </motion.p>
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setActiveProject(activeProject === index ? null : index);
+                    }}
+                    className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
                   >
-                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                      {project.links.github && (
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            asChild 
-                            className="w-full text-xs gap-1 hover:bg-primary/10 hover:border-primary transition-all"
-                          >
-                            <a href={project.links.github} target="_blank" rel="noopener noreferrer">
-                              <Github className="w-3.5 h-3.5" />
-                              <span className="hidden sm:inline">Code</span>
-                            </a>
-                          </Button>
-                        </motion.div>
-                      )}
-                      {project.links.demo && (
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            asChild 
-                            className="w-full text-xs gap-1 hover:bg-secondary/10 hover:border-secondary transition-all"
-                          >
-                            <a href={project.links.demo} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="w-3.5 h-3.5" />
-                              <span className="hidden sm:inline">Demo</span>
-                            </a>
-                          </Button>
-                        </motion.div>
-                      )}
-                      {project.links.website && (
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            asChild 
-                            className="w-full text-xs gap-1 hover:bg-accent/10 hover:border-accent transition-all"
-                          >
-                            <a href={project.links.website} target="_blank" rel="noopener noreferrer">
-                              <Globe className="w-3.5 h-3.5" />
-                              <span className="hidden sm:inline">Site</span>
-                            </a>
-                          </Button>
-                        </motion.div>
-                      )}
-                    </div>
+                    {activeProject === index ? 'Voir moins' : 'Voir plus'}
+                  </button>
+                </motion.div>
+
+                {/* Tech Stack - visible only when expanded */}
+                {activeProject === index && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.techStack.map((tech, techIndex) => (
+                      <motion.span
+                        key={tech}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ delay: 0.2 + techIndex * 0.05 }}
+                        whileHover={{ scale: 1.05 }}
+                        className="px-3 py-1 text-[11px] rounded-full bg-muted text-muted-foreground font-medium"
+                      >
+                        {tech}
+                      </motion.span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Links Section - visible only when expanded */}
+                {project.links && activeProject === index && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.2 }}
+                    className="grid grid-cols-1 gap-2 sm:grid-cols-3 pt-4 border-t border-border/50"
+                  >
+                    {project.links.github && (
+                      <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                          className="w-full text-xs gap-1 hover:bg-primary/10 hover:border-primary transition-all"
+                        >
+                          <a href={project.links.github} target="_blank" rel="noopener noreferrer">
+                            <Github className="w-3.5 h-3.5" />
+                            <span>Code</span>
+                          </a>
+                        </Button>
+                      </motion.div>
+                    )}
+                    {project.links.demo && (
+                      <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                          className="w-full text-xs gap-1 hover:bg-secondary/10 hover:border-secondary transition-all"
+                        >
+                          <a href={project.links.demo} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>Demo</span>
+                          </a>
+                        </Button>
+                      </motion.div>
+                    )}
+                    {project.links.website && (
+                      <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                          className="w-full text-xs gap-1 hover:bg-accent/10 hover:border-accent transition-all"
+                        >
+                          <a href={project.links.website} target="_blank" rel="noopener noreferrer">
+                            <Globe className="w-3.5 h-3.5" />
+                            <span>Site</span>
+                          </a>
+                        </Button>
+                      </motion.div>
+                    )}
                   </motion.div>
                 )}
               </motion.div>
