@@ -22,6 +22,8 @@
 //      status: 'live',
 //    }
 
+// Icônes disponibles par type de projet:
+
 
 // Boutons disponibles pour chaque lien:
 const LINK_BUTTONS = {
@@ -60,7 +62,7 @@ const PROJECT_STATUS = {
 };
 
 export {
-  PROJECT_TYPES,
+  
   LINK_BUTTONS,
   PROJECT_COLORS,
   PROJECT_STATUS,
