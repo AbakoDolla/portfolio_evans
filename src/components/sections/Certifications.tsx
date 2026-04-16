@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Calendar, Award, Plus, Upload, Star, TrendingUp, CheckCircle, X, Sparkles } from "lucide-react";
+import { title } from "process";
 
 interface Certification {
   id: string;
@@ -43,8 +44,16 @@ export function Certifications() {
       description: "Certification validant mes compétences en sécurité réseau et en cybersécurité avec les solutions Fortinet. Maîtrise des pare-feux, des systèmes de prévention d'intrusion et de la sécurité des endpoints.",
       badgeSrc: "/images/introduction-to-the-threat-landscape-3-0.png"
     }
+  ,
+    {
+      id: "4",
+      title: "Networking Basics",
+      issuer: "Cisco",
+      date: "2025-12-11",
+      description: "Cette certification valide ma capacité à comprendre, structurer et analyser un réseau informatique dans des conditions réelles.Jy ai développé des compétences concrètes en :Architecture réseau (modèles OSI / TCP-IP),Configuration et gestion déquipements réseau,Adressage IP et segmentation (subnetting),Diagnostic et résolution dincidents réseau,Fondamentaux de la sécurité des infrastructures,Au-delà de la théorie, cette formation renforce mon approche orientée analyse, résolution de problèmes et sécurité, des compétences clés que je mobilise dans mon objectif de spécialisation en cybersécurité et pentesting.Je suis aujourd'hui capable de comprendre comment un réseau fonctionne… et comment il peut être testé, sécurisé et optimisé.",
+      badgeSrc: "/images/networking-basics.png"
+    }
   ];
-
   return (
     <section id="certifications" className="py-20 px-4 relative">
       <motion.div

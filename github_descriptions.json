@@ -1,0 +1,92 @@
+{
+  "ember-grill": {
+    "description": "🔥 Application de gestion restaurant moderne - Ember Grill\n\nSolution complète de digitalisation pour restaurants. Gestion des commandes, menus dynamiques, et expérience client améliorée.\n\n🍽️ Fonctionnalités :\n• Gestion de restaurant\n• Commandes en ligne\n• Menu digital\n• Système de commande en ligne responsive\n• Gestion dynamique des menus et prix\n• Suivi en temps réel des commandes\n• Interface d'administration pour le personnel\n• Intégration paiement sécurisé (Stripe)\n• Gestion des réservations\n• Programme de fidélité intégré\n\n👨‍🍳 Pour restaurateurs :\n• Augmentation du chiffre d'affaires\n• Réduction des erreurs de commande\n• Amélioration de l'expérience client\n• Analytics des ventes et popularité des plats\n\n🛠️ Technologies : Node.js, npm, TypeScript, Vite, React, React DOM, Tailwind CSS\n📱 Plateforme : Web Application",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Gestion de restaurant",
+      "Commandes en ligne",
+      "Menu digital"
+    ],
+    "type": "restaurant-app"
+  },
+  "portfolio_evans": {
+    "description": "🚀 Portfolio professionnel - Développeur Full-Stack & Cybersécurité\n\nPortfolio interactif moderne présentant mes compétences en développement web, cybersécurité et automatisation Python. Interface élégante avec animations fluides et design responsive.\n\n🎯 Compétences présentées :\n• Développement Web (Node.js, npm, TypeScript, Vite, React, React DOM, Tailwind CSS)\n• Cybersécurité & Ethical Hacking\n• Automatisation Python & OSINT\n• Architecture réseau & VPN\n\n✨ Fonctionnalités :\n• Site web personnel\n• Présentation de projets\n• CV interactif\n\n🛠️ Technologies : Node.js, npm, TypeScript, Vite, React, React DOM, Tailwind CSS\n🎨 Design : UI/UX moderne avec animations",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Site web personnel",
+      "Présentation de projets",
+      "CV interactif"
+    ],
+    "type": "portfolio"
+  },
+  "colisgo-express": {
+    "description": "📦 Plateforme de livraison collaborative - ColisGo Express\n\nSolution innovante de livraison urbaine connectant expéditeurs et livreurs indépendants. Optimise les livraisons locales avec géolocalisation temps réel.\n\n⚡ Fonctionnalités principales :\n• Système de livraison\n• Géolocalisation\n• Gestion de colis\n• Géolocalisation GPS en temps réel\n• Matching intelligent expéditeur/livreur\n• Suivi de livraison live\n• Système de notation et avis\n• Paiement sécurisé intégré\n\n🎯 Cible : Livraison urbaine collaborative\n🛠️ Technologies : Node.js, npm, TypeScript, Vite, React, React DOM, Tailwind CSS\n📱 Support : Web & Mobile",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Système de livraison",
+      "Géolocalisation",
+      "Gestion de colis"
+    ],
+    "type": "delivery-app"
+  },
+  "voteflow-ict": {
+    "description": "🗳️ Système de vote électronique sécurisé - VoteFlow ICT\n\nPlateforme de vote en ligne sécurisée pour organisations et élections. Garantit l'intégrité des votes avec chiffrement avancé et traçabilité complète.\n\n🔐 Sécurité renforcée :\n• Chiffrement AES-256 des votes\n• Authentification multi-facteurs (2FA)\n• Audit trail complet et immuable\n• Anonymisation des données électeurs\n• Conformité RGPD et normes électorales\n\n📊 Fonctionnalités :\n• Système de vote\n• Authentification\n• Sécurité électorale\n• Interface de vote intuitive et accessible\n• Tableaux de bord d'administration temps réel\n• Génération automatique de rapports\n• Support multi-organisations/élections\n• Archivage sécurisé des résultats\n\n🛡️ Technologies : Node.js, npm, TypeScript, Vite, React, React DOM, Tailwind CSS\n🏛️ Usage : Élections, votes associatifs, sondages sécurisés",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Système de vote",
+      "Authentification",
+      "Sécurité électorale"
+    ],
+    "type": "voting-system"
+  },
+  "star-live-studio": {
+    "description": "🎬 Plateforme de streaming professionnel - Star Live Studio\n\nStudio de streaming en direct complet avec fonctionnalités avancées pour créateurs de contenu. Interface de diffusion, interaction audience et monétisation.\n\n🎭 Fonctionnalités streaming :\n• Streaming en direct\n• Interface de diffusion\n• Interaction audience\n• Diffusion en haute qualité (HD/4K)\n• Chat en temps réel avec modération IA\n• Intégration réseaux sociaux (YouTube, Twitch, etc.)\n• Analytics de performance détaillés\n• Monétisation par dons/abonnements\n• Enregistrement automatique des streams\n• Streaming multi-caméras\n\n🎯 Pour créateurs :\n• Streamers professionnels\n• Enseignants et formateurs\n• Entreprises (webinaires, présentations)\n• Événements en direct\n\n🛠️ Technologies : Node.js, npm, TypeScript, Vite, React, React DOM, Tailwind CSS\n🎬 Support : WebRTC, HLS, DASH",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Streaming en direct",
+      "Interface de diffusion",
+      "Interaction audience"
+    ],
+    "type": "streaming-platform"
+  }
+}

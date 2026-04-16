@@ -11,10 +11,34 @@ import {
   Search,
   Smartphone,
 } from "lucide-react";
+import {
+  SiPython,
+  SiReact,
+  SiJavascript,
+  SiHtml5,
+  SiCss,
+  SiTailwindcss,
+  SiKalilinux,
+  SiUbuntu,
+  SiAndroid,
+  SiWireguard,
+  SiMetasploit,
+  SiTryhackme,
+  SiOpenvpn,
+  SiScrapy,
+  SiStreamlit,
+  SiMlflow,
+  SiOpenai,
+  SiCyberdefenders,
+  SiCisco,
+} from "react-icons/si";
+import { VscVscode } from "react-icons/vsc";
+import { FaTools } from "react-icons/fa";
 
 interface Skill {
   name: string;
   level: number;
+  icon?: React.ElementType;
 }
 
 interface SkillCategory {
@@ -27,63 +51,63 @@ interface SkillCategory {
 const skillCategories: SkillCategory[] = [
   {
     title: "Cybersécurité / Ethical Hacking",
-    icon: Shield,
+    icon: SiCyberdefenders,
     color: "primary",
     skills: [
-      { name: "Pentesting (Metasploitable2)", level: 75 },
-      { name: "OWASP Top 10", level: 80 },
-      { name: "Kali Linux", level: 85 },
-      { name: "Exploitation & Hardening", level: 70 },
-      { name: "Reconnaissance", level: 75 },
-      { name: "Techniques OSINT", level: 80 },
+      { name: "Pentesting (Metasploitable2)", level: 75, icon: SiMetasploit },
+      { name: "OWASP Top 10", level: 80, icon: SiTryhackme },
+      { name: "Kali Linux", level: 85, icon: SiKalilinux },
+      { name: "Exploitation & Hardening", level: 70, icon: SiTryhackme },
+      { name: "Reconnaissance", level: 75, icon: Search },
+      { name: "Techniques OSINT", level: 80, icon: SiScrapy },
     ],
   },
   {
     title: "Réseaux & VPN",
-    icon: Globe,
+    icon: SiCisco,
     color: "secondary",
     skills: [
-      { name: "Configuration VPS Ubuntu", level: 85 },
-      { name: "WireGuard", level: 90 },
-      { name: "V2Ray/TCP", level: 70 },
-      { name: "Client VPN Android", level: 80 },
+      { name: "Configuration VPS Ubuntu", level: 85, icon: SiUbuntu },
+      { name: "WireGuard", level: 90, icon: SiWireguard },
+      { name: "V2Ray/TCP", level: 70, icon: SiOpenvpn },
+      { name: "Client VPN Android", level: 80, icon: SiAndroid },
     ],
   },
   {
     title: "Dev Web & Frontend",
-    icon: Code,
+    icon: SiHtml5,
     color: "primary",
     skills: [
-      { name: "HTML/CSS", level: 90 },
-      { name: "JavaScript", level: 85 },
-      { name: "React", level: 80 },
-      { name: "Tailwind CSS", level: 85 },
+      { name: "HTML/CSS", level: 90, icon: SiHtml5 },
+      { name: "JavaScript", level: 85, icon: SiJavascript },
+      { name: "React", level: 80, icon: SiReact },
+      { name: "Tailwind CSS", level: 85, icon: SiTailwindcss },
       { name: "Animations (GSAP/Framer)", level: 75 },
     ],
   },
   {
     title: "Python",
-    icon: Terminal,
+    icon: SiPython,
     color: "secondary",
     skills: [
-      { name: "Scripts d'automatisation", level: 85 },
-      { name: "OSINT Scraping", level: 80 },
-      { name: "Outils d'analyse", level: 75 },
-      { name: "GUI (CustomTkinter)", level: 70 },
-      { name: "IA/ML Vision", level: 60 },
+      { name: "Scripts d'automatisation", level: 85, icon: SiPython },
+      { name: "OSINT Scraping", level: 80, icon: SiScrapy },
+      { name: "Outils d'analyse", level: 75, icon: SiPython },
+      { name: "GUI (CustomTkinter)", level: 70, icon: SiStreamlit },
+      { name: "IA/ML Vision", level: 60, icon: SiOpenai },
     ],
   },
 ];
 
 const tools = [
-  { name: "Kali Linux", icon: Terminal },
-  { name: "Metasploit", icon: Shield },
-  { name: "VS Code", icon: Code },
-  { name: "VPS Ubuntu", icon: Server },
-  { name: "Metasploitable2", icon: Lock },
+  { name: "Kali Linux", icon: SiKalilinux },
+  { name: "Metasploit", icon: FaTools },
+  { name: "VS Code", icon: VscVscode },
+  { name: "VPS Ubuntu", icon: SiUbuntu },
+  { name: "Metasploitable2", icon: FaTools },
   { name: "OSINT Tools", icon: Search },
-  { name: "Android Dev", icon: Smartphone },
-  { name: "WireGuard", icon: Globe },
+  { name: "Android Dev", icon: SiAndroid },
+  { name: "WireGuard", icon: SiWireguard },
 ];
 
 export function Skills() {
@@ -217,7 +241,12 @@ export function Skills() {
                     whileHover={{ x: 5 }}
                   >
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-foreground">{skill.name}</span>
+                      <div className="flex items-center gap-2">
+                        {skill.icon && (
+                          <skill.icon className="w-4 h-4 text-muted-foreground" />
+                        )}
+                        <span className="text-foreground">{skill.name}</span>
+                      </div>
                       <motion.span
                         initial={{ opacity: 0 }}
                         animate={isInView ? { opacity: 1 } : {}}

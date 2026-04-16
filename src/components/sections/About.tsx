@@ -274,13 +274,13 @@ export function About() {
                       transition={{ delay: 1.6 }}
                       className="text-secondary"
                     >
-                      Intermediate
+                      Debutant
                     </motion.span>
                   </div>
                   <div className="h-2 rounded-full bg-muted overflow-hidden">
                     <motion.div
                       initial={{ width: 0, opacity: 0 }}
-                      animate={isInView ? { width: "50%", opacity: 1 } : {}}
+                      animate={isInView ? { width: "20%", opacity: 1 } : {}}
                       transition={{ duration: 1.2, delay: 1.4, ease: "easeOut" }}
                       className="h-full bg-gradient-to-r from-secondary to-primary"
                     />

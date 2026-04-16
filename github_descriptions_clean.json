@@ -1,0 +1,92 @@
+{
+  "ember-grill": {
+    "description": "Application de gestion restaurant moderne - Ember Grill Solution complète de digitalisation pour restaurants. Gestion des commandes, menus dynamiques, et expérience client améliorée. Fonctionnalités : • Gestion de restaurant • Commandes en ligne • Menu digital • Système de commande en ligne respo...",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Gestion de restaurant",
+      "Commandes en ligne",
+      "Menu digital"
+    ],
+    "type": "restaurant-app"
+  },
+  "portfolio_evans": {
+    "description": "Portfolio professionnel - Développeur Full-Stack & Cybersécurité Portfolio interactif moderne présentant mes compétences en développement web, cybersécurité et automatisation Python. Interface élégante avec animations fluides et design responsive. Compétences présentées : • Développement Web (Nod...",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Site web personnel",
+      "Présentation de projets",
+      "CV interactif"
+    ],
+    "type": "portfolio"
+  },
+  "colisgo-express": {
+    "description": "Plateforme de livraison collaborative - ColisGo Express Solution innovante de livraison urbaine connectant expéditeurs et livreurs indépendants. Optimise les livraisons locales avec géolocalisation temps réel. Fonctionnalités principales : • Système de livraison • Géolocalisation • Gestion de col...",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Système de livraison",
+      "Géolocalisation",
+      "Gestion de colis"
+    ],
+    "type": "delivery-app"
+  },
+  "voteflow-ict": {
+    "description": "Système de vote électronique sécurisé - VoteFlow ICT Plateforme de vote en ligne sécurisée pour organisations et élections. Garantit l'intégrité des votes avec chiffrement avancé et traçabilité complète. Sécurité renforcée : • Chiffrement AES-256 des votes • Authentification multi-facteurs (2FA) ...",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Système de vote",
+      "Authentification",
+      "Sécurité électorale"
+    ],
+    "type": "voting-system"
+  },
+  "star-live-studio": {
+    "description": "Plateforme de streaming professionnel - Star Live Studio Studio de streaming en direct complet avec fonctionnalités avancées pour créateurs de contenu. Interface de diffusion, interaction audience et monétisation. Fonctionnalités streaming : • Streaming en direct • Interface de diffusion • Intera...",
+    "techStack": [
+      "Node.js",
+      "npm",
+      "TypeScript",
+      "Vite",
+      "React",
+      "React DOM",
+      "Tailwind CSS"
+    ],
+    "features": [
+      "Streaming en direct",
+      "Interface de diffusion",
+      "Interaction audience"
+    ],
+    "type": "streaming-platform"
+  }
+}
