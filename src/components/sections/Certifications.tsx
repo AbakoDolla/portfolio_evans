@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Calendar, Award, Plus, Upload, Star, TrendingUp, CheckCircle, X, Sparkles } from "lucide-react";
-import { title } from "process";
 
 interface Certification {
   id: string;
@@ -49,9 +48,27 @@ export function Certifications() {
       id: "4",
       title: "Networking Basics",
       issuer: "Cisco",
-      date: "2025-12-11",
+      date: "2026-03-28",
       description: "Cette certification valide ma capacité à comprendre, structurer et analyser un réseau informatique dans des conditions réelles.Jy ai développé des compétences concrètes en :Architecture réseau (modèles OSI / TCP-IP),Configuration et gestion déquipements réseau,Adressage IP et segmentation (subnetting),Diagnostic et résolution dincidents réseau,Fondamentaux de la sécurité des infrastructures,Au-delà de la théorie, cette formation renforce mon approche orientée analyse, résolution de problèmes et sécurité, des compétences clés que je mobilise dans mon objectif de spécialisation en cybersécurité et pentesting.Je suis aujourd'hui capable de comprendre comment un réseau fonctionne… et comment il peut être testé, sécurisé et optimisé.",
       badgeSrc: "/images/networking-basics.png"
+    }
+  ,
+    {
+      id: "5",
+      title: "networking-devices-initial-configuration",
+      issuer: "Cisco",
+      date: "2026-05-02",
+      description: "Cette certification valide les compétences fondamentales en matière d'infrastructure réseau. J'ai acquis une expérience pratique dans la configuration des terminaux, l'installation de commutateurs et de routeurs Cisco, et la mise en place de la connectivité IPv4 et IPv6. Elle atteste également de ma compréhension des protocoles de communication essentiels au bon fonctionnement d'un réseau local",
+      badgeSrc: "/images/networking-devices-and-initial-configuration.png"
+    }
+  ,
+    {
+      id: "6",
+      title: "Introduction to Critical Infrastructure Protection (ICIP)",
+      issuer: "OPSWAT",
+      date: "2026-04-22",
+      description: "Cette certification valide ma compréhension des enjeux de la protection des infrastructures critiques. J'ai acquis des compétences clés dans l'identification des vulnérabilités, la mise en place de mesures de sécurité et la gestion des risques pour assurer la résilience des systèmes essentiels à la société.",
+      badgeSrc: "/images/opswat-introduction-to-critical-infrastructure-protection-icip.png"
     }
   ];
   return (
