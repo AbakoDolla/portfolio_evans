@@ -129,6 +129,7 @@ export function Certifications() {
                           <img
                             src={cert.badgeSrc}
                             alt="badge"
+                            loading="lazy"
                             className="w-16 h-16 rounded-xl object-cover border-2 border-border/50 shadow-lg"
                           />
                           <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-primary rounded-full border-2 border-background animate-pulse"></div>

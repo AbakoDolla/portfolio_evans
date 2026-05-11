@@ -437,7 +437,7 @@ export function Projects() {
                       }`}
                     >
                       {project.image ? (
-                        <img src={project.image} alt={project.title} className="w-8 h-8 object-contain" />
+                        <img src={project.image} alt={project.title} loading="lazy" className="w-8 h-8 object-contain" />
                       ) : (
                         <project.icon
                           className={`w-6 h-6 ${

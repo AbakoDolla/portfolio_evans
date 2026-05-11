@@ -2,8 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import profileImage from "@/assets/profile.jpg";
-import { useRef, useState, useCallback } from "react";
-import { AuthModal } from "@/components/auth/AuthModal";
+import { useRef } from "react";
 
 export function Hero() {
   const containerRef = useRef(null);
@@ -310,6 +309,7 @@ export function Hero() {
                 <img
                   src={profileImage}
                   alt="Abah Prince Evans"
+                  loading="lazy"
                   className="w-full h-full object-cover object-top"
                 />
                 {/* Indicateur de clic secret */}
