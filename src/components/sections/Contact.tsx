@@ -33,7 +33,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 relative" ref={ref}>
+    <section id="contact" className="py-16 md:py-24 relative" ref={ref}>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "linear-gradient(to top, hsl(var(--primary) / 0.05), transparent)" }}

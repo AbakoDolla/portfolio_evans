@@ -50,7 +50,7 @@ export function Skills() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="skills" className="py-24 relative" ref={ref}>
+    <section id="skills" className="py-16 md:py-24 relative" ref={ref}>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "linear-gradient(to bottom, transparent, hsl(var(--secondary) / 0.03), transparent)" }}
@@ -71,7 +71,7 @@ export function Skills() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
           {SKILL_GROUPS.map((group, gi) => (
             <motion.div
               key={group.category}

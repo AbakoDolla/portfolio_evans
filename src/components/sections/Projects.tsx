@@ -102,7 +102,7 @@ export function Projects() {
   const displayed = showAll ? repos : repos.slice(0, 6);
 
   return (
-    <section id="projects" className="py-24 relative" ref={ref}>
+    <section id="projects" className="py-16 md:py-24 relative" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"

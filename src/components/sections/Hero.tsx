@@ -44,7 +44,7 @@ export function Hero() {
         ))}
       </div>
 
-      <motion.div style={{ y, opacity }} className="container mx-auto px-4 py-20 relative z-10">
+      <motion.div style={{ y, opacity }} className="container mx-auto px-4 sm:px-6 py-20 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
 
           {/* Text */}
@@ -94,14 +94,17 @@ export function Hero() {
             </motion.p>
 
             <motion.p
-              className="text-base mb-3 max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              className="text-sm sm:text-base mb-3 max-w-xl mx-auto lg:mx-0 leading-relaxed"
               style={{ color: "hsl(var(--muted-foreground))" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.55 }}
             >
-              Futur SOC Analyst orienté Blue Team — surveillance des environnements, analyse des
-              événements de sécurité et détection des menaces.
+              Futur SOC Analyst orienté Blue Team, je me consacre à la surveillance des
+              environnements informatiques, à l'analyse des événements de sécurité et à la
+              détection des menaces. Curieux, méthodique et animé par une forte culture de
+              l'apprentissage, je développe continuellement mes compétences afin de contribuer
+              à la protection des organisations face aux risques cyber.
             </motion.p>
 
             <motion.div
@@ -203,7 +206,10 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.3, type: "spring" }}
             className="flex-shrink-0"
           >
-            <div className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-88 lg:h-88" style={{ width: "clamp(14rem, 30vw, 22rem)", height: "clamp(14rem, 30vw, 22rem)" }}>
+            <div
+              className="relative"
+              style={{ width: "clamp(12rem, 35vw, 22rem)", height: "clamp(12rem, 35vw, 22rem)" }}
+            >
               <motion.div
                 animate={{ opacity: [0.4, 0.7, 0.4] }}
                 transition={{ duration: 3, repeat: Infinity }}
@@ -229,18 +235,18 @@ export function Hero() {
                   className="w-full h-full object-cover object-top"
                 />
               </div>
-              {/* Floating badges */}
+              {/* Floating badges — hidden on xs, visible from sm */}
               {[
-                { text: "SOC Analyst", pos: { top: "-1rem", right: "-1rem" }, color: "hsl(var(--primary))" },
-                { text: "Blue Team", pos: { bottom: "-1rem", left: "-1rem" }, color: "hsl(var(--secondary))" },
-                { text: "SIEM", pos: { top: "50%", right: "-2rem" }, color: "hsl(var(--accent))" },
+                { text: "SOC Analyst", pos: { top: "-0.75rem", right: "-0.75rem" }, color: "hsl(var(--primary))" },
+                { text: "Blue Team", pos: { bottom: "-0.75rem", left: "-0.75rem" }, color: "hsl(var(--secondary))" },
+                { text: "SIEM", pos: { top: "50%", right: "-1.5rem" }, color: "hsl(var(--accent))" },
               ].map((f, i) => (
                 <motion.div
                   key={i}
-                  animate={{ y: [i % 2 === 0 ? -10 : 10, i % 2 === 0 ? 10 : -10, i % 2 === 0 ? -10 : 10] }}
+                  animate={{ y: [i % 2 === 0 ? -8 : 8, i % 2 === 0 ? 8 : -8, i % 2 === 0 ? -8 : 8] }}
                   transition={{ duration: 4 + i, repeat: Infinity }}
-                  className="absolute px-3 py-1.5 rounded-lg glass text-xs font-bold"
-                  style={{ ...f.pos, color: f.color, fontFamily: "var(--app-font-mono)" }}
+                  className="absolute px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg glass text-[10px] sm:text-xs font-bold"
+                  style={{ ...f.pos, color: f.color, fontFamily: "var(--app-font-mono)", zIndex: 10 }}
                 >
                   {f.text}
                 </motion.div>

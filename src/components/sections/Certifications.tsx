@@ -62,7 +62,7 @@ export function Certifications() {
   const displayed = filter === "Tous" ? CERTS : CERTS.filter((c) => c.issuer === filter);
 
   return (
-    <section id="certifications" className="py-24 relative" ref={ref}>
+    <section id="certifications" className="py-16 md:py-24 relative" ref={ref}>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "linear-gradient(to bottom, transparent, hsl(var(--primary) / 0.03), transparent)" }}

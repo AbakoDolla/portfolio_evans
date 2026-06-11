@@ -106,7 +106,7 @@ export function Services() {
   };
 
   return (
-    <section id="services" className="py-24 relative" ref={ref}>
+    <section id="services" className="py-16 md:py-24 relative" ref={ref}>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "linear-gradient(to bottom, transparent, hsl(var(--secondary) / 0.03), transparent)" }}

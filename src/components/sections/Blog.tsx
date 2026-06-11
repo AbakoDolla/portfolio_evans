@@ -135,7 +135,7 @@ export function Blog() {
   const displayed = filtered.slice(0, 9);
 
   return (
-    <section id="blog" className="py-24 relative" ref={ref}>
+    <section id="blog" className="py-16 md:py-24 relative" ref={ref}>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "linear-gradient(to bottom, transparent, hsl(var(--accent) / 0.03), transparent)" }}

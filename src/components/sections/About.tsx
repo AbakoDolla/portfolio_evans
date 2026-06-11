@@ -34,7 +34,7 @@ export function About() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-24 relative" ref={ref}>
+    <section id="about" className="py-16 md:py-24 relative" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"
