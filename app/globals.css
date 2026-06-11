@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 224 71% 4%;
+    --foreground: 180 100% 90%;
+    --card: 224 71% 6%;
+    --card-foreground: 180 100% 90%;
+    --border: 180 30% 20%;
+    --input: 180 30% 15%;
+    --ring: 180 100% 50%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 224 71% 4%;
+    --secondary: 150 100% 50%;
+    --secondary-foreground: 224 71% 4%;
+    --accent: 30 100% 60%;
+    --accent-foreground: 224 71% 4%;
+    --muted: 224 30% 12%;
+    --muted-foreground: 180 20% 60%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image: radial-gradient(ellipse at top, hsl(180 100% 50% / 0.05) 0%, transparent 50%),
+                      radial-gradient(ellipse at bottom right, hsl(150 100% 50% / 0.03) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+  html { scroll-behavior: smooth; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--primary) / 0.4); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--primary) / 0.7); }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-xl;
+  }
+  .glass-strong {
+    @apply bg-white/[0.05] backdrop-blur-xl border border-white/15 rounded-2xl;
+  }
+  .neon-border {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.3),
+                0 0 20px hsl(var(--primary) / 0.1),
+                inset 0 0 20px hsl(var(--primary) / 0.05);
+  }
+  .neon-text {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.8),
+                 0 0 40px hsl(var(--primary) / 0.4);
+  }
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
+  }
+  .cyber-grid {
+    background-image: linear-gradient(rgba(0,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,255,255,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  .section-title {
+    @apply font-mono text-primary text-sm mb-4 block;
+  }
+}
