@@ -4,66 +4,36 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Award, CheckCircle, Calendar, Building2, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n";
 
-interface Cert {
+interface CertMeta {
   id: string;
-  title: string;
   issuer: string;
   date: string;
-  description: string;
   badgeSrc: string;
-  verifyUrl?: string;
-  tags: string[];
 }
 
-const CERTS: Cert[] = [
-  {
-    id:"1", title:"Introduction à la Cybersécurité", issuer:"Cisco", date:"2026-02-03",
-    badgeSrc:"/images/introduction-to-cybersecurity.png",
-    tags:["Cybersécurité","Menaces","Protection"],
-    description:"Identification des cybermenaces (malwares, phishing, ingénierie sociale) et application des meilleures pratiques de protection des données et infrastructures.",
-  },
-  {
-    id:"2", title:"Linux Unhatched", issuer:"Cisco", date:"2026-02-04",
-    badgeSrc:"/images/linux-unhatched.png",
-    tags:["Linux","CLI","Open Source"],
-    description:"Navigation et administration d'un système Linux en ligne de commande, gestion de fichiers et compréhension de l'architecture Open Source.",
-  },
-  {
-    id:"3", title:"Fortinet Certified Professional", issuer:"Fortinet", date:"2025-12-11",
-    badgeSrc:"/images/introduction-to-the-threat-landscape-3-0.png",
-    tags:["Réseau","Pare-feu","IPS"],
-    description:"Compétences en sécurité réseau avec les solutions Fortinet : pare-feux, systèmes de prévention d'intrusion et sécurité des endpoints.",
-  },
-  {
-    id:"4", title:"Networking Basics", issuer:"Cisco", date:"2026-03-28",
-    badgeSrc:"/images/networking-basics.png",
-    tags:["TCP/IP","OSI","Subnetting"],
-    description:"Architecture réseau (modèles OSI/TCP-IP), configuration d'équipements, adressage IP, subnetting et diagnostic d'incidents réseau.",
-  },
-  {
-    id:"5", title:"Networking Devices & Initial Configuration", issuer:"Cisco", date:"2026-05-02",
-    badgeSrc:"/images/networking-devices-and-initial-configuration.png",
-    tags:["Cisco","Routeurs","IPv4/IPv6"],
-    description:"Configuration de terminaux, installation de commutateurs et routeurs Cisco, mise en place de la connectivité IPv4 et IPv6.",
-  },
-  {
-    id:"6", title:"Critical Infrastructure Protection (ICIP)", issuer:"OPSWAT", date:"2026-04-22",
-    badgeSrc:"/images/opswat-introduction-to-critical-infrastructure-protection-icip.png",
-    tags:["Infrastructure","OT/IT","Résilience"],
-    description:"Protection des infrastructures critiques, identification des vulnérabilités, mesures de sécurité et gestion des risques pour systèmes essentiels.",
-  },
+const CERT_META: CertMeta[] = [
+  { id:"1", issuer:"Cisco",   date:"2026-02-03", badgeSrc:"/images/introduction-to-cybersecurity.png" },
+  { id:"2", issuer:"Cisco",   date:"2026-02-04", badgeSrc:"/images/linux-unhatched.png" },
+  { id:"3", issuer:"Fortinet",date:"2025-12-11", badgeSrc:"/images/introduction-to-the-threat-landscape-3-0.png" },
+  { id:"4", issuer:"Cisco",   date:"2026-03-28", badgeSrc:"/images/networking-basics.png" },
+  { id:"5", issuer:"Cisco",   date:"2026-05-02", badgeSrc:"/images/networking-devices-and-initial-configuration.png" },
+  { id:"6", issuer:"OPSWAT",  date:"2026-04-22", badgeSrc:"/images/opswat-introduction-to-critical-infrastructure-protection-icip.png" },
 ];
 
-const ISSUERS = ["Tous", "Cisco", "Fortinet", "OPSWAT"];
+const ISSUERS = ["all", "Cisco", "Fortinet", "OPSWAT"] as const;
 
 export function Certifications() {
+  const { t, lang } = useLanguage();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [filter, setFilter] = useState("Tous");
+  const [filter, setFilter] = useState<(typeof ISSUERS)[number]>("all");
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const displayed = filter === "Tous" ? CERTS : CERTS.filter((c) => c.issuer === filter);
+  const certs = CERT_META.map((m) => ({ ...m, ...t.certifications.items.find((i) => i.id === m.id)! }));
+  const displayed = filter === "all" ? certs : certs.filter((c) => c.issuer === filter);
+  const dateLocale = lang === "fr" ? "fr-FR" : "en-US";
 
   return (
     <section id="certifications" className="py-24 relative" ref={ref}>
@@ -71,15 +41,15 @@ export function Certifications() {
       <div className="container mx-auto px-4 relative z-10">
         <motion.div className="text-center mb-12"
           initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
-          <span className="section-title">// Certifications</span>
+          <span className="section-title">{t.certifications.tag}</span>
           <div className="inline-flex items-center gap-3 mb-4">
             <Award className="w-8 h-8 text-primary" />
             <h2 className="text-3xl sm:text-4xl font-bold">
-              Mes <span className="text-gradient">Certifications</span>
+              {t.certifications.titlePre}<span className="text-gradient">{t.certifications.titleHighlight}</span>{t.certifications.titlePost}
             </h2>
           </div>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Formations validées par des organismes reconnus mondialement en cybersécurité et réseaux.
+            {t.certifications.description}
           </p>
         </motion.div>
 
@@ -91,7 +61,7 @@ export function Certifications() {
               className={`px-4 py-1.5 rounded-full text-sm font-mono font-medium border transition-all ${
                 filter === iss ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25" : "glass border-border/50 text-muted-foreground hover:border-primary/30"
               }`}>
-              {iss}
+              {iss === "all" ? t.certifications.filterAll : iss}
             </button>
           ))}
         </motion.div>
@@ -100,9 +70,9 @@ export function Certifications() {
         <motion.div className="flex flex-wrap justify-center gap-6 mb-10"
           initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.25 }}>
           {[
-            { icon: Award,     val: CERTS.length, label: "Certifications" },
-            { icon: Building2, val: "3",           label: "Organismes" },
-            { icon: CheckCircle, val: "100%",      label: "Validées" },
+            { icon: Award,     val: certs.length,                        label: t.certifications.statsLabels.certifications },
+            { icon: Building2, val: "3",                                 label: t.certifications.statsLabels.issuers },
+            { icon: CheckCircle, val: "100%",                            label: t.certifications.statsLabels.validated },
           ].map((s) => (
             <div key={s.label} className="flex items-center gap-3 px-5 py-3 glass rounded-xl">
               <s.icon className="w-5 h-5 text-primary" />
@@ -141,7 +111,7 @@ export function Certifications() {
                 </h3>
                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
                   <Calendar className="w-3 h-3" />
-                  {new Date(cert.date).toLocaleDateString("fr-FR", { year:"numeric", month:"long" })}
+                  {new Date(cert.date).toLocaleDateString(dateLocale, { year:"numeric", month:"long" })}
                 </div>
 
                 {/* Tags */}
@@ -154,7 +124,7 @@ export function Certifications() {
                 {/* Expand description */}
                 <button onClick={() => setExpanded(expanded === cert.id ? null : cert.id)}
                   className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors font-mono mb-2">
-                  {expanded === cert.id ? <><ChevronUp className="w-3 h-3" />Réduire</> : <><ChevronDown className="w-3 h-3" />Détails</>}
+                  {expanded === cert.id ? <><ChevronUp className="w-3 h-3" />{t.certifications.collapse}</> : <><ChevronDown className="w-3 h-3" />{t.certifications.details}</>}
                 </button>
                 {expanded === cert.id && (
                   <motion.p initial={{ opacity:0, height:0 }} animate={{ opacity:1, height:"auto" }}

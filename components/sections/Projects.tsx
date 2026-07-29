@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { ExternalLink, Github, Globe, Loader2, Star, GitFork, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n";
 
 interface Repo {
   name: string;
@@ -83,6 +84,7 @@ function ProjectImage({ repo }: { repo: Repo }) {
 }
 
 export function Projects() {
+  const { t } = useLanguage();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [repos, setRepos] = useState<Repo[]>([]);
@@ -100,19 +102,19 @@ export function Projects() {
       <div className="container mx-auto px-4">
         <motion.div className="text-center mb-16"
           initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
-          <span className="section-title">// Projets</span>
+          <span className="section-title">{t.projects.tag}</span>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Ce que je <span className="text-gradient">construis</span>
+            {t.projects.titlePre}<span className="text-gradient">{t.projects.titleHighlight}</span>{t.projects.titlePost}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Des projets concrets — de la sécurité au e-commerce en passant par l&apos;automatisation.
+            {t.projects.description}
           </p>
         </motion.div>
 
         {loading ? (
           <div className="flex flex-col items-center py-20 gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
-            <p className="text-muted-foreground font-mono text-sm">Chargement depuis GitHub…</p>
+            <p className="text-muted-foreground font-mono text-sm">{t.projects.loading}</p>
           </div>
         ) : (
           <>
@@ -142,7 +144,7 @@ export function Projects() {
                       </div>
                     )}
                     <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3">
-                      {repo.description || "Projet GitHub"}
+                      {repo.description || t.projects.fallbackDesc}
                     </p>
                     {repo.topics.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-3">
@@ -154,12 +156,12 @@ export function Projects() {
                     <div className="flex gap-2 mt-4 pt-4 border-t border-border/40">
                       <a href={repo.html_url} target="_blank" rel="noopener noreferrer"
                         className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg glass text-xs font-medium hover:border-primary/40 transition-all">
-                        <Github className="w-3.5 h-3.5" /> Code
+                        <Github className="w-3.5 h-3.5" /> {t.projects.code}
                       </a>
                       {repo.homepage && (
                         <a href={repo.homepage} target="_blank" rel="noopener noreferrer"
                           className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-medium hover:bg-primary/20 transition-all">
-                          <Globe className="w-3.5 h-3.5" /> Live
+                          <Globe className="w-3.5 h-3.5" /> {t.projects.live}
                         </a>
                       )}
                     </div>
@@ -173,7 +175,7 @@ export function Projects() {
                 initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.6 }}>
                 <button onClick={() => setShowAll(!showAll)}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass border border-primary/20 text-primary font-mono text-sm hover:bg-primary/10 transition-all">
-                  {showAll ? <><ChevronUp className="w-4 h-4" /> Voir moins</> : <><ChevronDown className="w-4 h-4" /> Voir tous ({repos.length}) projets</>}
+                  {showAll ? <><ChevronUp className="w-4 h-4" /> {t.projects.seeLess}</> : <><ChevronDown className="w-4 h-4" /> {t.projects.seeAll(repos.length)}</>}
                 </button>
               </motion.div>
             )}

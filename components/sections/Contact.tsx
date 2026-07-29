@@ -4,8 +4,10 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, MapPin, Github, Linkedin, Facebook, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
+import { useLanguage } from "@/lib/i18n";
 
 export function Contact() {
+  const { t } = useLanguage();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [form, setForm] = useState({ name:"", email:"", message:"" });
@@ -15,12 +17,12 @@ export function Contact() {
     e.preventDefault(); setSending(true);
     try {
       const res = await fetch("/api/contact", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(form) });
-      if (res.ok) { toast.success("Message envoyé ! Je vous réponds bientôt."); setForm({ name:"", email:"", message:"" }); }
+      if (res.ok) { toast.success(t.contact.toastSuccess); setForm({ name:"", email:"", message:"" }); }
       else throw new Error();
     } catch {
-      const b = `Nom: ${form.name}\nEmail: ${form.email}\n\n${form.message}`;
-      window.location.href = `mailto:evansabah2006@gmail.com?subject=${encodeURIComponent("Message — " + form.name)}&body=${encodeURIComponent(b)}`;
-      toast.info("Ouverture de votre client mail…");
+      const b = `${t.contact.mailLabels.name}: ${form.name}\n${t.contact.mailLabels.email}: ${form.email}\n\n${form.message}`;
+      window.location.href = `mailto:evansabah2006@gmail.com?subject=${encodeURIComponent(t.contact.mailSubject + " — " + form.name)}&body=${encodeURIComponent(b)}`;
+      toast.info(t.contact.toastMail);
     } finally { setSending(false); }
   };
 
@@ -30,12 +32,12 @@ export function Contact() {
       <div className="container mx-auto px-4 relative z-10">
         <motion.div className="text-center mb-16"
           initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
-          <span className="section-title">// Contact</span>
+          <span className="section-title">{t.contact.tag}</span>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Travaillons <span className="text-gradient">ensemble</span>
+            {t.contact.titlePre}<span className="text-gradient">{t.contact.titleHighlight}</span>{t.contact.titlePost}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Un projet en tête ? Une question ? N&apos;hésitez pas à me contacter directement.
+            {t.contact.description}
           </p>
         </motion.div>
 
@@ -43,11 +45,11 @@ export function Contact() {
           {/* Info */}
           <motion.div className="glass-strong rounded-2xl p-8"
             initial={{ opacity: 0, x: -60 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.7 }}>
-            <h3 className="text-xl font-bold mb-6">Informations</h3>
+            <h3 className="text-xl font-bold mb-6">{t.contact.infoTitle}</h3>
             <div className="space-y-5 mb-8">
               {[
-                { icon: Mail, label:"Email", value:"evansabah2006@gmail.com", href:"mailto:evansabah2006@gmail.com" },
-                { icon: MapPin, label:"Localisation", value:"Yaoundé, Cameroun" },
+                { icon: Mail, label:t.contact.emailLabel, value:"evansabah2006@gmail.com", href:"mailto:evansabah2006@gmail.com" },
+                { icon: MapPin, label:t.contact.locationLabel, value:t.contact.locationValue },
               ].map((info) => (
                 <div key={info.label} className="flex items-center gap-4">
                   <div className="p-3 rounded-xl bg-primary/15"><info.icon className="w-5 h-5 text-primary" /></div>
@@ -58,7 +60,7 @@ export function Contact() {
                 </div>
               ))}
             </div>
-            <p className="text-sm text-muted-foreground mb-3">Réseaux sociaux</p>
+            <p className="text-sm text-muted-foreground mb-3">{t.contact.socials}</p>
             <div className="flex gap-3 mb-8">
               {[
                 { icon: Github,         href:"https://github.com/AbakoDolla",                          label:"GitHub" },
@@ -79,7 +81,7 @@ export function Contact() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75" />
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary" />
                 </span>
-                <span className="text-sm">Disponible pour des <span className="text-secondary font-semibold">missions freelance</span></span>
+                <span className="text-sm">{t.contact.availablePre}<span className="text-secondary font-semibold">{t.contact.availableHighlight}</span></span>
               </div>
             </div>
           </motion.div>
@@ -87,11 +89,11 @@ export function Contact() {
           {/* Form */}
           <motion.form onSubmit={handleSubmit} className="glass-strong rounded-2xl p-8"
             initial={{ opacity: 0, x: 60 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.7 }}>
-            <h3 className="text-xl font-bold mb-6">Envoyer un message</h3>
+            <h3 className="text-xl font-bold mb-6">{t.contact.formTitle}</h3>
             <div className="space-y-4">
               {[
-                { id:"name",  label:"Nom complet", type:"text",  placeholder:"Votre nom" },
-                { id:"email", label:"Email",        type:"email", placeholder:"votre@email.com" },
+                { id:"name",  label:t.contact.nameLabel,  type:"text",  placeholder:t.contact.namePlaceholder },
+                { id:"email", label:t.contact.emailLabel, type:"email", placeholder:t.contact.emailPlaceholder },
               ].map((f) => (
                 <div key={f.id}>
                   <label htmlFor={f.id} className="text-xs text-muted-foreground mb-1.5 block">{f.label}</label>
@@ -101,14 +103,14 @@ export function Contact() {
                 </div>
               ))}
               <div>
-                <label htmlFor="message" className="text-xs text-muted-foreground mb-1.5 block">Message</label>
-                <textarea id="message" required rows={5} placeholder="Décrivez votre projet ou demande…"
+                <label htmlFor="message" className="text-xs text-muted-foreground mb-1.5 block">{t.contact.messageLabel}</label>
+                <textarea id="message" required rows={5} placeholder={t.contact.messagePlaceholder}
                   value={form.message} onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
                   className="w-full px-4 py-2.5 rounded-xl bg-muted/50 border border-border focus:border-primary outline-none transition-all resize-none text-sm" />
               </div>
               <button type="submit" disabled={sending}
                 className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-all disabled:opacity-60 shadow-lg shadow-primary/20">
-                {sending ? "Envoi…" : "Envoyer le message"}
+                {sending ? t.contact.sending : t.contact.submit}
               </button>
             </div>
           </motion.form>

@@ -82,7 +82,7 @@ export default async function StudioPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-medium text-sm">{String(m.name)}</span>
-                    {m.service && <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-md font-mono">{String(m.service)}</span>}
+                    {Boolean(m.service) && <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-md font-mono">{String(m.service)}</span>}
                     {!m.read && <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5 truncate">{String(m.message)}</p>

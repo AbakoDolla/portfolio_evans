@@ -11,7 +11,9 @@ export default async function Image() {
   let profileSrc = "";
   try {
     const buf = await readFile(join(process.cwd(), "public/images/profile.jpg"));
-    profileSrc = `data:image/jpeg;base64,${buf.toString("base64")}`;
+    // Le fichier peut être un PNG malgré son extension .jpg — on détecte le vrai type
+    const isPng = buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47;
+    profileSrc = `data:image/${isPng ? "png" : "jpeg"};base64,${buf.toString("base64")}`;
   } catch { /* no photo fallback */ }
 
   const skills = ["Next.js", "React", "Python", "Pentest", "OSINT"];
@@ -47,13 +49,13 @@ export default async function Image() {
         {/* ── Left column ── */}
         <div style={{
           display: "flex", flexDirection: "column", justifyContent: "center",
-          flex: 1, padding: "56px 40px 56px 80px", gap: "18px", position: "relative", zIndex: 1,
+          flex: 1, padding: "56px 40px 56px 80px", gap: "18px", position: "relative",
         }}>
           {/* Status badge */}
           <div style={{
             display: "flex", alignItems: "center", gap: "10px",
             background: "rgba(0,255,255,0.07)", border: "1px solid rgba(0,255,255,0.22)",
-            borderRadius: "100px", padding: "8px 18px", width: "fit-content",
+            borderRadius: "100px", padding: "8px 18px", alignSelf: "flex-start",
             fontSize: "15px", color: "rgba(0,255,255,0.85)", fontFamily: "monospace",
           }}>
             <div style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#00ff96", boxShadow: "0 0 8px #00ff96" }} />
@@ -79,9 +81,9 @@ export default async function Image() {
             Cybersécurité · Dev Full-Stack · IA
           </div>
 
-          {/* Location */}
+          {/* Location — pas d'emoji : le fallback twemoji nécessite un accès réseau au build */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "16px", color: "rgba(140,200,200,0.5)" }}>
-            <span style={{ fontSize: "18px" }}>📍</span> Yaoundé, Cameroun
+            Yaoundé, Cameroun
           </div>
 
           {/* Skills pills */}
@@ -104,13 +106,14 @@ export default async function Image() {
         {/* ── Right column — Profile photo ── */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "center",
-          padding: "40px 80px 40px 20px", position: "relative", zIndex: 1,
+          padding: "40px 80px 40px 20px", position: "relative",
         }}>
           {profileSrc ? (
             <div style={{
               width: "290px", height: "290px", borderRadius: "50%", overflow: "hidden",
               border: "3px solid rgba(0,255,255,0.35)",
               boxShadow: "0 0 0 8px rgba(0,255,255,0.06), 0 0 80px rgba(0,255,255,0.22), 0 0 140px rgba(0,255,150,0.1)",
+              display: "flex",
             }}>
               {/* @ts-ignore */}
               <img src={profileSrc} width="290" height="290" style={{ objectFit: "cover", objectPosition: "top center" }} />
@@ -121,9 +124,9 @@ export default async function Image() {
               background: "linear-gradient(135deg, rgba(0,255,255,0.15), rgba(0,255,150,0.1))",
               border: "3px solid rgba(0,255,255,0.35)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "80px",
+              fontSize: "72px", fontWeight: "800", color: "rgba(0,255,255,0.8)", fontFamily: "monospace",
             }}>
-              👤
+              APE
             </div>
           )}
         </div>
