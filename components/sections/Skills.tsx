@@ -6,10 +6,11 @@ import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiPython, SiDjango,
          SiPostgresql, SiSupabase, SiGit, SiLinux, SiKalilinux, SiDocker,
          SiFramer, SiNodedotjs, SiMongodb } from "react-icons/si";
 import { Shield, Brain } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 
 const SKILL_GROUPS = [
   {
-    category: "Frontend",
+    id: "frontend" as const,
     color: "primary" as const,
     skills: [
       { name: "React",       icon: SiReact,       level: 85 },
@@ -20,7 +21,7 @@ const SKILL_GROUPS = [
     ],
   },
   {
-    category: "Backend & DB",
+    id: "backend" as const,
     color: "secondary" as const,
     skills: [
       { name: "Python",      icon: SiPython,     level: 80 },
@@ -32,7 +33,7 @@ const SKILL_GROUPS = [
     ],
   },
   {
-    category: "Cybersécurité",
+    id: "cyber" as const,
     color: "accent" as const,
     skills: [
       { name: "Kali Linux",  icon: SiKalilinux,  level: 75 },
@@ -46,6 +47,7 @@ const SKILL_GROUPS = [
 ];
 
 export function Skills() {
+  const { t } = useLanguage();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -55,21 +57,21 @@ export function Skills() {
       <div className="container mx-auto px-4 relative z-10">
         <motion.div className="text-center mb-16"
           initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
-          <span className="section-title">// Skills</span>
+          <span className="section-title">{t.skills.tag}</span>
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Mon <span className="text-gradient">stack</span> technique
+            {t.skills.titlePre}<span className="text-gradient">{t.skills.titleHighlight}</span>{t.skills.titlePost}
           </h2>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {SKILL_GROUPS.map((group, gi) => (
-            <motion.div key={group.category}
+            <motion.div key={group.id}
               initial={{ opacity: 0, y: 60 }} animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: gi * 0.2 }}
               className="glass-strong rounded-2xl p-6">
               <h3 className={`font-bold text-lg mb-6 font-mono ${
                 group.color === "primary" ? "text-primary" : group.color === "secondary" ? "text-secondary" : "text-accent"}`}>
-                {group.category}
+                {t.skills.groups[group.id]}
               </h3>
               <div className="space-y-4">
                 {group.skills.map((skill, si) => (

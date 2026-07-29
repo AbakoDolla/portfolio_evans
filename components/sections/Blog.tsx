@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { Rss, ExternalLink, Loader2, Clock, RefreshCw, Shield, Brain, Code2, Cpu } from "lucide-react";
+import { useLanguage, type Dictionary } from "@/lib/i18n";
 
 interface Post {
   id: string;
@@ -20,23 +21,24 @@ const CAT_CONFIG = {
   "dev web":       { color: "text-blue-400",    bg: "bg-blue-500/10",   border: "border-blue-500/20", icon: Code2 },
   "tech":          { color: "text-green-400",   bg: "bg-green-500/10",  border: "border-green-500/20",icon: Cpu },
 };
-const CATEGORIES = ["Tous", "cybersécurité", "IA", "dev web", "tech"] as const;
+const CATEGORIES = ["all", "cybersécurité", "IA", "dev web", "tech"] as const;
 
-function timeAgo(dateStr: string) {
+function timeAgo(dateStr: string, t: Dictionary["blog"]) {
   const diff = Date.now() - new Date(dateStr).getTime();
   const h = Math.floor(diff / 3_600_000);
-  if (h < 1) return "À l'instant";
-  if (h < 24) return `il y a ${h}h`;
-  return `il y a ${Math.floor(h/24)}j`;
+  if (h < 1) return t.justNow;
+  if (h < 24) return t.hoursAgo(h);
+  return t.daysAgo(Math.floor(h/24));
 }
 
 export function Blog() {
+  const { t } = useLanguage();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [filter, setFilter] = useState<typeof CATEGORIES[number]>("Tous");
+  const [filter, setFilter] = useState<typeof CATEGORIES[number]>("all");
 
   const load = () => {
     setLoading(true); setError(false);
@@ -44,7 +46,7 @@ export function Blog() {
   };
   useEffect(load, []);
 
-  const filtered = filter === "Tous" ? posts : posts.filter((p) => p.category === filter);
+  const filtered = filter === "all" ? posts : posts.filter((p) => p.category === filter);
   const displayed = filtered.slice(0, 9);
 
   return (
@@ -54,15 +56,15 @@ export function Blog() {
 
         <motion.div className="text-center mb-12"
           initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
-          <span className="section-title">// Blog & Actus</span>
+          <span className="section-title">{t.blog.tag}</span>
           <div className="inline-flex items-center gap-3 mb-4">
             <Rss className="w-7 h-7 text-primary" />
             <h2 className="text-3xl sm:text-4xl font-bold">
-              Tech <span className="text-gradient">en direct</span>
+              {t.blog.titlePre}<span className="text-gradient">{t.blog.titleHighlight}</span>{t.blog.titlePost}
             </h2>
           </div>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Les dernières actualités en cybersécurité, IA, développement web et tech — agrégées automatiquement depuis des sources fiables.
+            {t.blog.description}
           </p>
         </motion.div>
 
@@ -70,32 +72,32 @@ export function Blog() {
         <motion.div className="flex flex-wrap justify-center gap-2 mb-8"
           initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.2 }}>
           {CATEGORIES.map((cat) => {
-            const cfg = cat !== "Tous" ? CAT_CONFIG[cat] : null;
+            const cfg = cat !== "all" ? CAT_CONFIG[cat] : null;
             const Icon = cfg?.icon;
             return (
               <button key={cat} onClick={() => setFilter(cat)}
                 className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-mono border transition-all ${
                   filter === cat ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20" : "glass border-border/50 text-muted-foreground hover:border-primary/30"
                 }`}>
-                {Icon && <Icon className="w-3.5 h-3.5" />} {cat === "Tous" ? "Toutes catégories" : cat}
+                {Icon && <Icon className="w-3.5 h-3.5" />} {cat === "all" ? t.blog.allCategories : t.blog.categories[cat]}
               </button>
             );
           })}
           <button onClick={load} disabled={loading}
             className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-mono glass border border-border/50 text-muted-foreground hover:border-primary/30 disabled:opacity-50 transition-all">
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} /> Actualiser
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} /> {t.blog.refresh}
           </button>
         </motion.div>
 
         {loading ? (
           <div className="flex flex-col items-center py-20 gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
-            <p className="text-muted-foreground font-mono text-sm">Récupération des actus…</p>
+            <p className="text-muted-foreground font-mono text-sm">{t.blog.loading}</p>
           </div>
         ) : error ? (
           <div className="text-center py-16">
-            <p className="text-muted-foreground mb-4">Impossible de charger les actus pour le moment.</p>
-            <button onClick={load} className="px-4 py-2 glass rounded-xl text-sm text-primary hover:bg-primary/10 transition-all">Réessayer</button>
+            <p className="text-muted-foreground mb-4">{t.blog.error}</p>
+            <button onClick={load} className="px-4 py-2 glass rounded-xl text-sm text-primary hover:bg-primary/10 transition-all">{t.blog.retry}</button>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -110,7 +112,7 @@ export function Blog() {
                   className="glass-strong rounded-2xl p-5 flex flex-col gap-3 group hover:border-primary/30 transition-all cursor-pointer">
                   <div className="flex items-center justify-between">
                     <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold ${cfg.bg} ${cfg.color} border ${cfg.border}`}>
-                      <Icon className="w-3 h-3" /> {post.category}
+                      <Icon className="w-3 h-3" /> {t.blog.categories[post.category] ?? post.category}
                     </span>
                     <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
@@ -123,7 +125,7 @@ export function Blog() {
                   <div className="flex items-center justify-between mt-auto pt-2 border-t border-border/30">
                     <span className="text-xs font-semibold text-muted-foreground">{post.source}</span>
                     <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                      <Clock className="w-3 h-3" /> {timeAgo(post.date)}
+                      <Clock className="w-3 h-3" /> {timeAgo(post.date, t.blog)}
                     </div>
                   </div>
                 </motion.a>
@@ -133,7 +135,7 @@ export function Blog() {
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground font-mono">Aucun article dans cette catégorie.</div>
+          <div className="text-center py-16 text-muted-foreground font-mono">{t.blog.empty}</div>
         )}
       </div>
     </section>

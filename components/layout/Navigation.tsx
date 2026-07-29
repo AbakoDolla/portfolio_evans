@@ -2,22 +2,25 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Terminal } from "lucide-react";
-
-const NAV_LINKS = [
-  { href: "#hero",           label: "Accueil" },
-  { href: "#about",          label: "À propos" },
-  { href: "#skills",         label: "Skills" },
-  { href: "#projects",       label: "Projets" },
-  { href: "#certifications", label: "Certifs" },
-  { href: "#blog",           label: "Blog" },
-  { href: "#services",       label: "Services" },
-  { href: "#contact",        label: "Contact" },
-];
+import { LanguageToggle } from "./LanguageToggle";
+import { useLanguage } from "@/lib/i18n";
 
 export function Navigation() {
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState("hero");
+
+  const NAV_LINKS = [
+    { href: "#hero",           label: t.nav.home },
+    { href: "#about",          label: t.nav.about },
+    { href: "#skills",         label: t.nav.skills },
+    { href: "#projects",       label: t.nav.projects },
+    { href: "#certifications", label: t.nav.certifications },
+    { href: "#blog",           label: t.nav.blog },
+    { href: "#services",       label: t.nav.services },
+    { href: "#contact",        label: t.nav.contact },
+  ];
 
   useEffect(() => {
     const onScroll = () => {
@@ -30,6 +33,7 @@ export function Navigation() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -48,7 +52,7 @@ export function Navigation() {
         </motion.a>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-1">
           {NAV_LINKS.map((link) => (
             <motion.a
               key={link.href}
@@ -63,15 +67,21 @@ export function Navigation() {
               {link.label}
             </motion.a>
           ))}
+          <div className="w-px h-6 mx-2 bg-border/60" aria-hidden />
+          <LanguageToggle />
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden p-2 rounded-lg glass"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        {/* Mobile: toggle langue + burger */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <LanguageToggle />
+          <button
+            className="p-2 rounded-lg glass"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -81,7 +91,7 @@ export function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border/50 glass"
+            className="lg:hidden border-t border-border/50 glass"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
               {NAV_LINKS.map((link) => (

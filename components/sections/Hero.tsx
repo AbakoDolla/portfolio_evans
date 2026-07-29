@@ -3,8 +3,10 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, MapPin, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
+import { useLanguage } from "@/lib/i18n";
 
 export function Hero() {
+  const { t } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y        = useTransform(scrollYProgress, [0, 1], [0, 200]);
@@ -44,8 +46,8 @@ export function Hero() {
             >
               <motion.span animate={{ scale: [1,1.3,1] }} transition={{ duration: 2, repeat: Infinity }}
                 className="w-2 h-2 rounded-full bg-secondary" />
-              <span className="text-muted-foreground">available_for_work</span>
-              <span className="text-primary">= true</span>
+              <span className="text-muted-foreground">{t.hero.badge}</span>
+              <span className="text-primary">{t.hero.badgeValue}</span>
             </motion.div>
 
             <motion.h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4"
@@ -57,31 +59,31 @@ export function Hero() {
 
             <motion.p className="text-xl sm:text-2xl text-muted-foreground mb-4 font-light"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-              Cybersécurité&nbsp;•&nbsp;Dev Full-Stack&nbsp;•&nbsp;IA
+              {t.hero.tagline}
             </motion.p>
 
             <motion.p className="text-lg text-muted-foreground mb-3 max-w-xl mx-auto lg:mx-0"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
-              J&apos;apprends, je bâtis, je rends le web plus sûr.
+              {t.hero.subtitle}
             </motion.p>
 
             <motion.div className="flex items-center justify-center lg:justify-start gap-2 text-sm text-muted-foreground mb-8"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>
               <MapPin className="w-4 h-4 text-primary" />
-              <span>Yaoundé, Cameroun</span>
+              <span>{t.hero.location}</span>
             </motion.div>
 
             <motion.div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mb-8"
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
               <motion.a href="#projects" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
                 className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 neon-border">
-                Voir mes projets
+                {t.hero.viewProjects}
               </motion.a>
               <motion.a href="#services" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
                 className="px-6 py-3 rounded-xl glass border border-secondary/30 font-bold text-secondary hover:bg-secondary/10 transition-all">
-                Mes services
+                {t.hero.myServices}
               </motion.a>
-              <motion.a href="https://wa.me/+237691439534?text=Bonjour%20Evans!" target="_blank" rel="noopener noreferrer"
+              <motion.a href={`https://wa.me/+237691439534?text=${encodeURIComponent(t.hero.whatsappMsg)}`} target="_blank" rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
                 className="px-6 py-3 rounded-xl glass font-bold text-accent hover:bg-accent/10 transition-all flex items-center gap-2">
                 <MessageCircle className="w-4 h-4" />WhatsApp
@@ -146,7 +148,7 @@ export function Hero() {
           className="absolute bottom-10 left-1/2 -translate-x-1/2">
           <motion.a href="#about" animate={{ y: [0,10,0] }} transition={{ duration: 1.5, repeat: Infinity }}
             className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-            <span className="text-xs font-mono">scroll</span>
+            <span className="text-xs font-mono">{t.hero.scroll}</span>
             <ArrowDown className="w-4 h-4" />
           </motion.a>
         </motion.div>

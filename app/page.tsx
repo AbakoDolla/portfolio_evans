@@ -1,3 +1,4 @@
+import { LanguageProvider } from "@/lib/i18n";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
@@ -11,7 +12,7 @@ import { Contact } from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <>
+    <LanguageProvider>
       <Navigation />
       <main>
         <Hero />
@@ -24,6 +25,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </LanguageProvider>
   );
 }

@@ -1,8 +1,10 @@
 "use client";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, Terminal } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 
 export function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="border-t border-border/50 py-12 mt-16">
       <div className="container mx-auto px-4">
@@ -12,7 +14,7 @@ export function Footer() {
             <span className="text-primary font-bold">AbahDev<span className="text-secondary">_</span></span>
           </motion.div>
           <p className="text-sm text-muted-foreground text-center font-mono">
-            © {new Date().getFullYear()} Abah Prince Evans • Yaoundé, Cameroun
+            © {new Date().getFullYear()} Abah Prince Evans • {t.footer.location}
           </p>
           <div className="flex gap-3">
             {[
