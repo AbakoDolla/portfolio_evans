@@ -4,6 +4,7 @@ import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Globe, LayoutDashboard, ShieldCheck, Smartphone, Bot, ArrowRight, CheckCircle2, MessageCircle, Mail } from "lucide-react";
 import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/lib/i18n";
 
 const SERVICE_META = [
@@ -23,6 +24,7 @@ export function Services() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   const SERVICES = SERVICE_META.map((m, i) => ({ ...m, ...t.services.items[i] }));
+  const pathname = usePathname() || "/";
   const [selected, setSelected] = useState<string | null>(null);
   const [form, setForm] = useState<FormData>({ name:"", email:"", service:"", budget:"", message:"" });
   const [sending, setSending] = useState(false);
@@ -111,6 +113,17 @@ export function Services() {
             );
           })}
         </div>
+
+        {pathname !== "/services" && (
+          <div className="text-center mb-16">
+            <a
+              href="/services"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass border border-primary/30 text-primary font-bold hover:bg-primary/10 transition-all shadow-sm"
+            >
+              Voir la page dédiée Services & Tarifs <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        )}
 
         {/* Contact form */}
         <motion.div id="service-form"

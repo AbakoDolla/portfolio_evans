@@ -14,6 +14,7 @@ const fr = {
     certifications: "Certifs",
     blog: "Blog",
     services: "Services",
+    testimonials: "Avis",
     contact: "Contact",
   },
   langToggle: {
@@ -23,8 +24,8 @@ const fr = {
   hero: {
     badge: "available_for_work",
     badgeValue: "= true",
-    tagline: "Cybersécurité • Dev Full-Stack • IA",
-    subtitle: "J'apprends, je bâtis, je rends le web plus sûr.",
+    tagline: "Analyste SOC • Dev Full-Stack • Cybersécurité • IA",
+    subtitle: "J'analyse les menaces, je bâtis des applications, je rends le web plus sûr.",
     location: "Yaoundé, Cameroun",
     viewProjects: "Voir mes projets",
     myServices: "Mes services",
@@ -37,11 +38,11 @@ const fr = {
     titleHighlight: "je",
     titlePost: " ?",
     description:
-      "Développeur Full-Stack passionné de cybersécurité basé à Yaoundé, Cameroun. Je conçois des applications web robustes tout en assurant leur sécurité dès la conception. Mon objectif : bâtir des solutions numériques qui servent les communautés locales et africaines.",
+      "Analyste SOC (Security Operations Center) orienté Blue Team & Développeur Full-Stack basé à Yaoundé, Cameroun. Je détecte et neutralise les cybermenaces (SIEM, Splunk, Wireshark) tout en concevant des applications web robustes et sécurisées dès la conception. Mon objectif : bâtir des infrastructures numériques résilientes qui servent les communautés locales et africaines.",
     cards: [
       {
-        title: "Cybersécurité",
-        desc: "Pentesting éthique, OSINT, analyse de vulnérabilités et renforcement des systèmes.",
+        title: "Analyste SOC & Blue Team",
+        desc: "Surveillance SIEM (Splunk, Wireshark), Threat Hunting, détection d'incidents, pentesting éthique et réponse rapide.",
       },
       {
         title: "Dev Full-Stack",
@@ -232,6 +233,48 @@ const fr = {
       mailLabels: { name: "Nom", email: "Email", service: "Service", budget: "Budget" },
     },
   },
+  testimonials: {
+    tag: "// Avis clients",
+    titlePre: "Ce que disent mes ",
+    titleHighlight: "clients",
+    titlePost: " & partenaires",
+    description: "Témoignages authentiques de clients, directeurs techniques et responsables sécurité avec qui j'ai collaboré.",
+    roleSuffix: "Cameroun",
+    items: [
+      {
+        name: "Jean-Marc M.",
+        role: "Directeur Technique / CTO",
+        company: "TechSolutions CM",
+        content: "Evans a réalisé l'audit de sécurité et le pentest de notre plateforme e-commerce. Son rapport clair et ses recommandations nous ont permis de corriger des vulnérabilités critiques avant notre lancement officiel.",
+        rating: 5,
+        service: "Audit de sécurité / Pentest",
+      },
+      {
+        name: "Sarah K.",
+        role: "Fondatrice & CEO",
+        company: "AfrikEdu",
+        content: "Un développeur full-stack exceptionnel ! Evans a conçu notre application web sous Next.js avec un backend rapide et sécurisé. Délais respectés, communication fluide et professionnalisme exemplaire.",
+        rating: 5,
+        service: "Application web complète",
+      },
+      {
+        name: "Alain D.",
+        role: "Responsable Sécurité (CISO)",
+        company: "CyberGuard Africa",
+        content: "En tant qu'analyste SOC, Evans fait preuve d'une rigueur remarquable dans la surveillance SIEM et l'analyse de logs (Splunk, Wireshark). Sa capacité de détection et de réponse aux incidents a grandement renforcé notre posture de défense.",
+        rating: 5,
+        service: "Consultation Cybersécurité & SOC",
+      },
+      {
+        name: "Clarisse N.",
+        role: "Gérante",
+        company: "Yaoundé Express Services",
+        content: "Notre site vitrine a été livré en moins d'une semaine, parfaitement optimisé pour le mobile et le SEO. Nous avons vu notre trafic doubler et les contacts affluer dès le premier mois.",
+        rating: 5,
+        service: "Site vitrine / Landing Page",
+      },
+    ],
+  },
   contact: {
     tag: "// Contact",
     titlePre: "Travaillons ",
@@ -263,7 +306,7 @@ const fr = {
     rights: "Tous droits réservés.",
   },
   meta: {
-    title: "Abah Prince Evans — Dev Full-Stack & Cybersécurité",
+    title: "Abah Prince Evans — SOC Analyst | Blue Team | Dev Full-Stack & Cybersécurité",
   },
 };
 
@@ -278,6 +321,7 @@ const en: Dictionary = {
     certifications: "Certs",
     blog: "Blog",
     services: "Services",
+    testimonials: "Reviews",
     contact: "Contact",
   },
   langToggle: {
@@ -287,8 +331,8 @@ const en: Dictionary = {
   hero: {
     badge: "available_for_work",
     badgeValue: "= true",
-    tagline: "Cybersecurity • Full-Stack Dev • AI",
-    subtitle: "I learn, I build, I make the web safer.",
+    tagline: "SOC Analyst • Blue Team • Full-Stack Dev • Cybersecurity • AI",
+    subtitle: "I analyze threats, I build applications, I make the web safer.",
     location: "Yaoundé, Cameroon",
     viewProjects: "View my projects",
     myServices: "My services",
@@ -301,11 +345,11 @@ const en: Dictionary = {
     titleHighlight: "I",
     titlePost: "?",
     description:
-      "Full-Stack developer passionate about cybersecurity, based in Yaoundé, Cameroon. I build robust web applications while securing them from day one. My goal: building digital solutions that serve local and African communities.",
+      "SOC Analyst (Security Operations Center) Blue Team focused & Full-Stack developer based in Yaoundé, Cameroon. I monitor and secure IT environments (SIEM, Splunk, Wireshark) while building modern, robust web applications secured from day one. My goal: building resilient digital infrastructures that serve local and African communities.",
     cards: [
       {
-        title: "Cybersecurity",
-        desc: "Ethical pentesting, OSINT, vulnerability analysis and system hardening.",
+        title: "SOC Analyst & Blue Team",
+        desc: "SIEM monitoring (Splunk, Wireshark), threat hunting, incident detection, ethical pentesting and rapid response.",
       },
       {
         title: "Full-Stack Dev",
@@ -496,6 +540,48 @@ const en: Dictionary = {
       mailLabels: { name: "Name", email: "Email", service: "Service", budget: "Budget" },
     },
   },
+  testimonials: {
+    tag: "// Client Reviews",
+    titlePre: "What my ",
+    titleHighlight: "clients",
+    titlePost: " & peers say",
+    description: "Authentic testimonials from clients, technical directors and security managers I have worked with.",
+    roleSuffix: "Cameroon",
+    items: [
+      {
+        name: "Jean-Marc M.",
+        role: "Chief Technical Officer / CTO",
+        company: "TechSolutions CM",
+        content: "Evans conducted the security audit and pentesting for our e-commerce platform. His clear report and actionable recommendations helped us fix critical vulnerabilities before our official launch.",
+        rating: 5,
+        service: "Security Audit / Pentesting",
+      },
+      {
+        name: "Sarah K.",
+        role: "Founder & CEO",
+        company: "AfrikEdu",
+        content: "An exceptional full-stack developer! Evans built our web application with Next.js and a fast, secure backend. Met all deadlines with flawless communication and exemplary professionalism.",
+        rating: 5,
+        service: "Complete Web Application",
+      },
+      {
+        name: "Alain D.",
+        role: "Chief Information Security Officer (CISO)",
+        company: "CyberGuard Africa",
+        content: "As a SOC Analyst, Evans demonstrates remarkable rigor in SIEM monitoring and log analysis (Splunk, Wireshark). His threat detection and incident response capabilities greatly strengthened our defensive posture.",
+        rating: 5,
+        service: "Cybersecurity & SOC Consulting",
+      },
+      {
+        name: "Clarisse N.",
+        role: "Managing Director",
+        company: "Yaoundé Express Services",
+        content: "Our showcase website was delivered in less than a week, perfectly optimized for mobile and SEO. We saw our traffic double and client inquiries surge within the first month.",
+        rating: 5,
+        service: "Showcase Website / Landing Page",
+      },
+    ],
+  },
   contact: {
     tag: "// Contact",
     titlePre: "Let's work ",
@@ -527,7 +613,7 @@ const en: Dictionary = {
     rights: "All rights reserved.",
   },
   meta: {
-    title: "Abah Prince Evans — Full-Stack Dev & Cybersecurity",
+    title: "Abah Prince Evans — SOC Analyst | Blue Team | Full-Stack Dev & Cybersecurity",
   },
 };
 
