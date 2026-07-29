@@ -2,39 +2,50 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Terminal } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { LanguageToggle } from "./LanguageToggle";
 import { useLanguage } from "@/lib/i18n";
 
 export function Navigation() {
   const { t } = useLanguage();
+  const pathname = usePathname() || "/";
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [active, setActive] = useState("hero");
 
   const NAV_LINKS = [
-    { href: "#hero",           label: t.nav.home },
-    { href: "#about",          label: t.nav.about },
-    { href: "#skills",         label: t.nav.skills },
-    { href: "#projects",       label: t.nav.projects },
-    { href: "#certifications", label: t.nav.certifications },
-    { href: "#blog",           label: t.nav.blog },
-    { href: "#services",       label: t.nav.services },
-    { href: "#contact",        label: t.nav.contact },
+    { href: isHome ? "#hero" : "/",                id: "hero",           label: t.nav.home },
+    { href: isHome ? "#about" : "/#about",         id: "about",          label: t.nav.about },
+    { href: isHome ? "#skills" : "/#skills",       id: "skills",         label: t.nav.skills },
+    { href: isHome ? "#projects" : "/#projects",   id: "projects",       label: t.nav.projects },
+    { href: isHome ? "#certifications" : "/#certifications", id: "certifications", label: t.nav.certifications },
+    { href: "/blog",                               id: "blog",           label: t.nav.blog },
+    { href: "/services",                           id: "services",       label: t.nav.services },
+    { href: isHome ? "#testimonials" : "/#testimonials", id: "testimonials", label: t.nav.testimonials },
+    { href: isHome ? "#contact" : "/#contact",     id: "contact",        label: t.nav.contact },
   ];
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 30);
-      const sections = NAV_LINKS.map((l) => l.href.slice(1));
+      if (!isHome) return;
+      const sections = ["hero", "about", "skills", "projects", "certifications", "blog", "services", "testimonials", "contact"];
       for (const id of [...sections].reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 120) { setActive(id); break; }
       }
     };
+
+    if (!isHome) {
+      if (pathname.startsWith("/blog")) setActive("blog");
+      else if (pathname.startsWith("/services")) setActive("services");
+    }
+
     window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isHome, pathname]);
 
   return (
     <motion.nav
@@ -46,7 +57,7 @@ export function Navigation() {
       }`}
     >
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <motion.a href="#hero" className="flex items-center gap-2 font-mono" whileHover={{ scale: 1.05 }}>
+        <motion.a href={isHome ? "#hero" : "/"} className="flex items-center gap-2 font-mono" whileHover={{ scale: 1.05 }}>
           <Terminal className="w-5 h-5 text-primary" />
           <span className="text-primary font-bold">AbahDev<span className="text-secondary">_</span></span>
         </motion.a>
@@ -55,11 +66,11 @@ export function Navigation() {
         <div className="hidden lg:flex items-center gap-1">
           {NAV_LINKS.map((link) => (
             <motion.a
-              key={link.href}
+              key={link.id}
               href={link.href}
               whileHover={{ scale: 1.05 }}
               className={`px-3 py-1.5 rounded-lg font-mono text-sm transition-all ${
-                active === link.href.slice(1)
+                active === link.id
                   ? "text-primary bg-primary/10 border border-primary/20"
                   : "text-muted-foreground hover:text-foreground hover:bg-white/5"
               }`}
@@ -96,11 +107,11 @@ export function Navigation() {
             <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
                 <a
-                  key={link.href}
+                  key={link.id}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={`px-4 py-2.5 rounded-lg font-mono text-sm transition-all ${
-                    active === link.href.slice(1)
+                    active === link.id
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-foreground"
                   }`}

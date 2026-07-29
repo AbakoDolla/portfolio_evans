@@ -2,7 +2,8 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { Rss, ExternalLink, Loader2, Clock, RefreshCw, Shield, Brain, Code2, Cpu } from "lucide-react";
+import { Rss, ExternalLink, Loader2, Clock, RefreshCw, Shield, Brain, Code2, Cpu, ArrowRight } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useLanguage, type Dictionary } from "@/lib/i18n";
 
 interface Post {
@@ -33,6 +34,7 @@ function timeAgo(dateStr: string, t: Dictionary["blog"]) {
 
 export function Blog() {
   const { t } = useLanguage();
+  const pathname = usePathname() || "/";
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [posts, setPosts] = useState<Post[]>([]);
@@ -136,6 +138,17 @@ export function Blog() {
 
         {!loading && !error && filtered.length === 0 && (
           <div className="text-center py-16 text-muted-foreground font-mono">{t.blog.empty}</div>
+        )}
+
+        {pathname !== "/blog" && (
+          <div className="text-center mt-12">
+            <a
+              href="/blog"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass border border-primary/30 text-primary font-bold hover:bg-primary/10 transition-all shadow-sm"
+            >
+              Accéder au blog dédié & veille <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
         )}
       </div>
     </section>

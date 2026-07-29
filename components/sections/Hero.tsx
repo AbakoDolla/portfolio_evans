@@ -131,9 +131,10 @@ export function Hero() {
                 <Image src="/images/profile.jpg" alt="Abah Prince Evans" fill priority
                   className="object-cover object-top" sizes="(max-width:768px) 256px, 384px" />
               </div>
-              {[{ text: "<hacker/>", pos: "absolute -top-4 -right-4", color: "text-primary" },
-                { text: "pentester", pos: "absolute -bottom-4 -left-4", color: "text-secondary" },
-                { text: "OSINT", pos: "absolute top-1/2 -right-8", color: "text-accent" }].map((f, i) => (
+              {[{ text: "SOC Analyst", pos: "absolute -top-4 -right-4", color: "text-primary" },
+                { text: "Blue Team", pos: "absolute -bottom-4 -left-4", color: "text-secondary" },
+                { text: "SIEM / Splunk", pos: "absolute top-1/3 -right-8", color: "text-accent" },
+                { text: "<hacker/>", pos: "absolute bottom-1/4 -right-6", color: "text-primary" }].map((f, i) => (
                 <motion.div key={i} animate={{ y: [i%2===0?-10:10, i%2===0?10:-10, i%2===0?-10:10] }}
                   transition={{ duration: 4+i, repeat: Infinity }}
                   className={`${f.pos} px-3 py-1.5 rounded-lg glass font-mono text-xs ${f.color}`}>
